@@ -1,0 +1,6 @@
+
+--- Module:   C:\Users\John\Documents\Visual Studio 2015\Projects\Cryptography\RSX\RSX\rsx_test.c (C)
+#include "common.h"
+C:\Users\John\Documents\Visual Studio 2015\Projects\Cryptography\RSX\RSX\aes_kat.h(15): error 537: (Warning -- Repeated include file 'C:\Users\John\Documents\Visual Studio 2015\Projects\Cryptography\RSX\RSX\common.h')
+#include "common.h"
+C:\Users\John\Documents\Visual Studio 2015\Projects\Cryptography\RSX\RSX\sha3_kat.h(4): error 537: (Warning -- Repeated include file 'C:\Users\John\Documents\Visual Studio 2015\Projects\Cryptography\RSX\RSX\common.h')

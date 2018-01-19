@@ -1,0 +1,375 @@
+\hypertarget{rsx_8h}{}\section{C\+:/\+Users/\+John/\+Documents/\+Visual Studio 2015/\+Projects/\+Cryptography/\+R\+S\+X/\+R\+S\+X/rsx.h File Reference}
+\label{rsx_8h}\index{C\+:/\+Users/\+John/\+Documents/\+Visual Studio 2015/\+Projects/\+Cryptography/\+R\+S\+X/\+R\+S\+X/rsx.\+h@{C\+:/\+Users/\+John/\+Documents/\+Visual Studio 2015/\+Projects/\+Cryptography/\+R\+S\+X/\+R\+S\+X/rsx.\+h}}
+
+
+{\bfseries R\+S\+X header definition} ~\newline
+Rijndael S\+H\+A\+K\+E Extended.  
+
+
+{\ttfamily \#include \char`\"{}sha3.\+h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{rsx_8h_a203aa264801cda118ff52897679ae4ff}{R\+S\+X\+\_\+\+B\+L\+O\+C\+K\+\_\+\+S\+I\+Z\+E}~16
+\item 
+\#define \hyperlink{rsx_8h_ad22bba0ede4ca788504923556204acb8}{A\+E\+S128\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E}~16
+\item 
+\#define \hyperlink{rsx_8h_a5a64a2e860ad4e5012c6dbcd19c77210}{A\+E\+S256\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E}~32
+\item 
+\#define \hyperlink{rsx_8h_a5f5630bbd3e96af2a70ba117864ed7ad}{R\+S\+X256\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E}~32
+\item 
+\#define \hyperlink{rsx_8h_ac9b8f8c9b72c89fe07de0f4313131396}{R\+S\+X512\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E}~64
+\item 
+\#define \hyperlink{rsx_8h_ad18f5a8c51cdbd6eec820dcad73d32bf}{A\+E\+S128\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T}~10
+\item 
+\#define \hyperlink{rsx_8h_a3df29de957cf4de65b44410164e3fe32}{A\+E\+S256\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T}~14
+\item 
+\#define \hyperlink{rsx_8h_a3ce030b66af194fde21ac656673721d8}{R\+S\+X256\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T}~22
+\item 
+\#define \hyperlink{rsx_8h_a57bb0fc4002f6604f8b4bc5545ba913c}{R\+S\+X512\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T}~30
+\item 
+\#define \hyperlink{rsx_8h_ad26cba1b61f8741628a831eeca53c345}{R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+E\+L\+E\+M\+E\+N\+T\+\_\+\+S\+I\+Z\+E}~4
+\item 
+\#define \hyperlink{rsx_8h_a59eb31dc3d9bfbae34839af5b833f4da}{A\+E\+S128\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N}~((\hyperlink{rsx_8h_ad18f5a8c51cdbd6eec820dcad73d32bf}{A\+E\+S128\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T} + 1) $\ast$ (\hyperlink{rsx_8h_a203aa264801cda118ff52897679ae4ff}{R\+S\+X\+\_\+\+B\+L\+O\+C\+K\+\_\+\+S\+I\+Z\+E} / \hyperlink{rsx_8h_ad26cba1b61f8741628a831eeca53c345}{R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+E\+L\+E\+M\+E\+N\+T\+\_\+\+S\+I\+Z\+E}))
+\item 
+\#define \hyperlink{rsx_8h_ae7996c7e17c92aadf69a163a2a5b1826}{A\+E\+S256\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N}~((\hyperlink{rsx_8h_a3df29de957cf4de65b44410164e3fe32}{A\+E\+S256\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T} + 1) $\ast$ (\hyperlink{rsx_8h_a203aa264801cda118ff52897679ae4ff}{R\+S\+X\+\_\+\+B\+L\+O\+C\+K\+\_\+\+S\+I\+Z\+E} / \hyperlink{rsx_8h_ad26cba1b61f8741628a831eeca53c345}{R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+E\+L\+E\+M\+E\+N\+T\+\_\+\+S\+I\+Z\+E}))
+\item 
+\#define \hyperlink{rsx_8h_ac6f8f9e6f6051a99776674e1bdfa3e8f}{R\+S\+X256\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N}~((\hyperlink{rsx_8h_a3ce030b66af194fde21ac656673721d8}{R\+S\+X256\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T} + 1) $\ast$ (\hyperlink{rsx_8h_a203aa264801cda118ff52897679ae4ff}{R\+S\+X\+\_\+\+B\+L\+O\+C\+K\+\_\+\+S\+I\+Z\+E} / \hyperlink{rsx_8h_ad26cba1b61f8741628a831eeca53c345}{R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+E\+L\+E\+M\+E\+N\+T\+\_\+\+S\+I\+Z\+E}))
+\item 
+\#define \hyperlink{rsx_8h_ab5034ea119012c12a2fc076d8df22564}{R\+S\+X512\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N}~((\hyperlink{rsx_8h_a57bb0fc4002f6604f8b4bc5545ba913c}{R\+S\+X512\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T} + 1) $\ast$ (\hyperlink{rsx_8h_a203aa264801cda118ff52897679ae4ff}{R\+S\+X\+\_\+\+B\+L\+O\+C\+K\+\_\+\+S\+I\+Z\+E} / \hyperlink{rsx_8h_ad26cba1b61f8741628a831eeca53c345}{R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+E\+L\+E\+M\+E\+N\+T\+\_\+\+S\+I\+Z\+E}))
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{rsx_8h_a493e495558ca9f23e8c2d2da33a7f81c}{rsx\+\_\+status} \{ \\*
+\hyperlink{rsx_8h_a493e495558ca9f23e8c2d2da33a7f81cac817edf68b2429ea678b8293f69dd8f1}{R\+S\+X\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+S\+U\+C\+C\+E\+S\+S} = 0, 
+\hyperlink{rsx_8h_a493e495558ca9f23e8c2d2da33a7f81ca55860fdc3809b6dc6f2c359dea5f998b}{R\+S\+X\+\_\+\+E\+R\+R\+O\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E} = 1, 
+\hyperlink{rsx_8h_a493e495558ca9f23e8c2d2da33a7f81caf381b81135155c76792dc6b3b9c8706c}{R\+S\+X\+\_\+\+E\+R\+R\+O\+R\+\_\+\+I\+N\+V\+A\+L\+I\+D} = 2, 
+\hyperlink{rsx_8h_a493e495558ca9f23e8c2d2da33a7f81caedbd46a8a92cbb127c2a7b86f3017f94}{R\+S\+X\+\_\+\+E\+R\+R\+O\+R\+\_\+\+A\+U\+T\+H\+F\+A\+I\+L} = 3, 
+\\*
+\hyperlink{rsx_8h_a493e495558ca9f23e8c2d2da33a7f81ca08f202cdd1631e051709ff7ddbc15f28}{R\+S\+X\+\_\+\+E\+R\+R\+O\+R\+\_\+\+R\+A\+N\+D\+F\+A\+I\+L} = 4
+ \}
+\item 
+enum \hyperlink{rsx_8h_aeedaf8017f8d6518f7dedef365bbae43}{cipher\+\_\+mode} \{ \hyperlink{rsx_8h_aeedaf8017f8d6518f7dedef365bbae43a4ace9ef28707cb98c2ccaaff518b3a49}{C\+B\+C} = 1, 
+\hyperlink{rsx_8h_aeedaf8017f8d6518f7dedef365bbae43a7ab14ded2636fb92a2e0ca9238249f01}{C\+T\+R} = 2, 
+\hyperlink{rsx_8h_aeedaf8017f8d6518f7dedef365bbae43a7d741b13309dda6483a636c9d75e009e}{E\+C\+B} = 3, 
+\hyperlink{rsx_8h_aeedaf8017f8d6518f7dedef365bbae43a313f9e8f1ff4fdfe84c642fdb62b8aab}{G\+C\+M} = 4
+ \}
+\item 
+enum \hyperlink{rsx_8h_a210553ce0095c77704d972532f9ebc2b}{cipher\+\_\+type} \{ \hyperlink{rsx_8h_a210553ce0095c77704d972532f9ebc2ba1832208b0a725185016b59150ff74fc4}{A\+E\+S128} = 1, 
+\hyperlink{rsx_8h_a210553ce0095c77704d972532f9ebc2bac5fd1447393aadba145b2e484061be6b}{A\+E\+S256} = 2, 
+\hyperlink{rsx_8h_a210553ce0095c77704d972532f9ebc2bad18062eccf646cad2fd8404cc8908930}{R\+S\+X256} = 3, 
+\hyperlink{rsx_8h_a210553ce0095c77704d972532f9ebc2ba77b6c951dbf23e4b65af660464e5184a}{R\+S\+X512} = 4
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{rsx_8h_a28fbf8adaee55da9289a885dd37d9bb3}{rsx\+\_\+cbc\+\_\+decrypt} (uint8\+\_\+t $\ast$output, uint8\+\_\+t $\ast$iv, const uint8\+\_\+t $\ast$input, const uint32\+\_\+t $\ast$rkeys, size\+\_\+t rkeylen)
+\begin{DoxyCompactList}\small\item\em Decrypt one (16 byte) block of cipher-\/text using Cipher Block Chaining (C\+B\+C) mode. \end{DoxyCompactList}\item 
+void \hyperlink{rsx_8h_a81aec763ef220fcd6b49036bf6d59e96}{rsx\+\_\+cbc\+\_\+encrypt} (uint8\+\_\+t $\ast$output, uint8\+\_\+t $\ast$iv, const uint8\+\_\+t $\ast$input, const uint32\+\_\+t $\ast$rkeys, size\+\_\+t rkeylen)
+\begin{DoxyCompactList}\small\item\em Encrypt one (16 byte) block of plain-\/text using Cipher Block Chaining (C\+B\+C) mode. \end{DoxyCompactList}\item 
+void \hyperlink{rsx_8h_a57c1d9e4bb01d6e51fb41373c7186b63}{rsx\+\_\+ctr\+\_\+transform} (uint8\+\_\+t $\ast$output, uint8\+\_\+t $\ast$nonce, const uint8\+\_\+t $\ast$input, const uint32\+\_\+t $\ast$rkeys, size\+\_\+t rkeylen)
+\begin{DoxyCompactList}\small\item\em Encrypt/\+Decrypt one (16 byte) block of plain-\/text using a segmented integer counter (C\+T\+R) mode. \end{DoxyCompactList}\item 
+void \hyperlink{rsx_8h_a3877431af4c219517f74617dd3194418}{rsx\+\_\+ecb\+\_\+decrypt} (uint8\+\_\+t $\ast$output, const uint8\+\_\+t $\ast$input, const uint32\+\_\+t $\ast$rkeys, size\+\_\+t rkeylen)
+\begin{DoxyCompactList}\small\item\em Decrypt one (16 byte) block of cipher-\/text using Electronic Code\+Book Mode (E\+C\+B) mode. ~\newline
+E\+C\+B is not a secure mode, and should be used only for testing, or building more complex primitives. \end{DoxyCompactList}\item 
+void \hyperlink{rsx_8h_ae3d0e29903a643e049860a88802518d3}{rsx\+\_\+ecb\+\_\+encrypt} (uint8\+\_\+t $\ast$output, const uint8\+\_\+t $\ast$input, const uint32\+\_\+t $\ast$rkeys, size\+\_\+t rkeylen)
+\begin{DoxyCompactList}\small\item\em Encrypt one (16 byte) block of cipher-\/text using Electronic Code\+Book Mode (E\+C\+B) mode. ~\newline
+E\+C\+B is not a secure mode, and should be used only for testing, or building more complex primitives. \end{DoxyCompactList}\item 
+\hyperlink{rsx_8h_a493e495558ca9f23e8c2d2da33a7f81c}{rsx\+\_\+status} \hyperlink{rsx_8h_aa095f00fc01083d97631759e4c509ba6}{rsx\+\_\+initialize} (uint32\+\_\+t $\ast$roundkeys, const uint8\+\_\+t $\ast$inputkey, bool encryption, \hyperlink{rsx_8h_a210553ce0095c77704d972532f9ebc2b}{cipher\+\_\+type} cipher)
+\begin{DoxyCompactList}\small\item\em Initialize the round key array (key schedule) to the rkey array. ~\newline
+A\+E\+S128 and A\+E\+S256 use the traditional rijndael key schedule, R\+S\+X256 and R\+S\+X512 use the S\+H\+A\+K\+E256 kdf. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+{\bfseries R\+S\+X header definition} ~\newline
+Rijndael S\+H\+A\+K\+E Extended. 
+
+\begin{DoxyAuthor}{Author}
+John Underhill 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+January 17, 2018
+\end{DoxyDate}
+{\bfseries A\+E\+S256 C\+T\+R Example} ~\newline
+
+\begin{DoxyCode}
+\textcolor{comment}{// transform a single block of bytes}
+uint32\_t roundkeys[\hyperlink{rsx_8h_ae7996c7e17c92aadf69a163a2a5b1826}{AES256\_ROUNDKEY\_DIMENSION}];
+uint8\_t output[16];
+
+\textcolor{comment}{// use the external input key to initialize the key-schedule and output the round key array}
+\hyperlink{rsx_8h_aa095f00fc01083d97631759e4c509ba6}{rsx\_initialize}(roundkeys, inputkey, \textcolor{keyword}{true}, \hyperlink{rsx_8h_a210553ce0095c77704d972532f9ebc2bac5fd1447393aadba145b2e484061be6b}{AES256});
+\textcolor{comment}{// pass in the iv and message (external), and the round key array, and encrypt the message to output}
+\hyperlink{rsx_8h_a57c1d9e4bb01d6e51fb41373c7186b63}{rsx\_ctr\_transform}(output, iv, message, roundkeys, 
+      \hyperlink{rsx_8h_ae7996c7e17c92aadf69a163a2a5b1826}{AES256\_ROUNDKEY\_DIMENSION});
+\end{DoxyCode}
+
+
+\begin{DoxyRemark}{Remarks}
+For usage examples, see rsx\+\_\+kat.\+h. To enable A\+E\+S-\/\+N\+I, add R\+S\+X\+\_\+\+A\+E\+S\+N\+I\+\_\+\+E\+N\+A\+B\+L\+E\+D to the preprocessor definitions. 
+\end{DoxyRemark}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{rsx_8h_ad22bba0ede4ca788504923556204acb8}{}\index{rsx.\+h@{rsx.\+h}!A\+E\+S128\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E@{A\+E\+S128\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E}}
+\index{A\+E\+S128\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E@{A\+E\+S128\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E}!rsx.\+h@{rsx.\+h}}
+\subsubsection[{A\+E\+S128\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define A\+E\+S128\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E~16}\label{rsx_8h_ad22bba0ede4ca788504923556204acb8}
+The size in bytes of the A\+E\+S128 input cipher-\/key \hypertarget{rsx_8h_ad18f5a8c51cdbd6eec820dcad73d32bf}{}\index{rsx.\+h@{rsx.\+h}!A\+E\+S128\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T@{A\+E\+S128\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T}}
+\index{A\+E\+S128\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T@{A\+E\+S128\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T}!rsx.\+h@{rsx.\+h}}
+\subsubsection[{A\+E\+S128\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define A\+E\+S128\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T~10}\label{rsx_8h_ad18f5a8c51cdbd6eec820dcad73d32bf}
+The number of rijndael rounds used by A\+E\+S128 \hypertarget{rsx_8h_a59eb31dc3d9bfbae34839af5b833f4da}{}\index{rsx.\+h@{rsx.\+h}!A\+E\+S128\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N@{A\+E\+S128\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N}}
+\index{A\+E\+S128\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N@{A\+E\+S128\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N}!rsx.\+h@{rsx.\+h}}
+\subsubsection[{A\+E\+S128\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#define A\+E\+S128\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N~(({\bf A\+E\+S128\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T} + 1) $\ast$ ({\bf R\+S\+X\+\_\+\+B\+L\+O\+C\+K\+\_\+\+S\+I\+Z\+E} / {\bf R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+E\+L\+E\+M\+E\+N\+T\+\_\+\+S\+I\+Z\+E}))}\label{rsx_8h_a59eb31dc3d9bfbae34839af5b833f4da}
+The number of rounds keys (array elements) used by A\+E\+S128 \hypertarget{rsx_8h_a5a64a2e860ad4e5012c6dbcd19c77210}{}\index{rsx.\+h@{rsx.\+h}!A\+E\+S256\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E@{A\+E\+S256\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E}}
+\index{A\+E\+S256\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E@{A\+E\+S256\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E}!rsx.\+h@{rsx.\+h}}
+\subsubsection[{A\+E\+S256\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define A\+E\+S256\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E~32}\label{rsx_8h_a5a64a2e860ad4e5012c6dbcd19c77210}
+The size in bytes of the A\+E\+S256 input cipher-\/key \hypertarget{rsx_8h_a3df29de957cf4de65b44410164e3fe32}{}\index{rsx.\+h@{rsx.\+h}!A\+E\+S256\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T@{A\+E\+S256\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T}}
+\index{A\+E\+S256\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T@{A\+E\+S256\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T}!rsx.\+h@{rsx.\+h}}
+\subsubsection[{A\+E\+S256\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define A\+E\+S256\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T~14}\label{rsx_8h_a3df29de957cf4de65b44410164e3fe32}
+The number of rijndael rounds used by A\+E\+S256 \hypertarget{rsx_8h_ae7996c7e17c92aadf69a163a2a5b1826}{}\index{rsx.\+h@{rsx.\+h}!A\+E\+S256\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N@{A\+E\+S256\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N}}
+\index{A\+E\+S256\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N@{A\+E\+S256\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N}!rsx.\+h@{rsx.\+h}}
+\subsubsection[{A\+E\+S256\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#define A\+E\+S256\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N~(({\bf A\+E\+S256\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T} + 1) $\ast$ ({\bf R\+S\+X\+\_\+\+B\+L\+O\+C\+K\+\_\+\+S\+I\+Z\+E} / {\bf R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+E\+L\+E\+M\+E\+N\+T\+\_\+\+S\+I\+Z\+E}))}\label{rsx_8h_ae7996c7e17c92aadf69a163a2a5b1826}
+The number of rounds keys (array elements) used by A\+E\+S256 \hypertarget{rsx_8h_ad26cba1b61f8741628a831eeca53c345}{}\index{rsx.\+h@{rsx.\+h}!R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+E\+L\+E\+M\+E\+N\+T\+\_\+\+S\+I\+Z\+E@{R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+E\+L\+E\+M\+E\+N\+T\+\_\+\+S\+I\+Z\+E}}
+\index{R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+E\+L\+E\+M\+E\+N\+T\+\_\+\+S\+I\+Z\+E@{R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+E\+L\+E\+M\+E\+N\+T\+\_\+\+S\+I\+Z\+E}!rsx.\+h@{rsx.\+h}}
+\subsubsection[{R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+E\+L\+E\+M\+E\+N\+T\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+E\+L\+E\+M\+E\+N\+T\+\_\+\+S\+I\+Z\+E~4}\label{rsx_8h_ad26cba1b61f8741628a831eeca53c345}
+The size in bytes of the round key array elements \hypertarget{rsx_8h_a5f5630bbd3e96af2a70ba117864ed7ad}{}\index{rsx.\+h@{rsx.\+h}!R\+S\+X256\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E@{R\+S\+X256\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E}}
+\index{R\+S\+X256\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E@{R\+S\+X256\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E}!rsx.\+h@{rsx.\+h}}
+\subsubsection[{R\+S\+X256\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\+S\+X256\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E~32}\label{rsx_8h_a5f5630bbd3e96af2a70ba117864ed7ad}
+The size in bytes of the R\+S\+X256 input cipher-\/key \hypertarget{rsx_8h_a3ce030b66af194fde21ac656673721d8}{}\index{rsx.\+h@{rsx.\+h}!R\+S\+X256\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T@{R\+S\+X256\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T}}
+\index{R\+S\+X256\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T@{R\+S\+X256\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T}!rsx.\+h@{rsx.\+h}}
+\subsubsection[{R\+S\+X256\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\+S\+X256\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T~22}\label{rsx_8h_a3ce030b66af194fde21ac656673721d8}
+The number of rijndael rounds used by R\+S\+X256 \hypertarget{rsx_8h_ac6f8f9e6f6051a99776674e1bdfa3e8f}{}\index{rsx.\+h@{rsx.\+h}!R\+S\+X256\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N@{R\+S\+X256\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N}}
+\index{R\+S\+X256\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N@{R\+S\+X256\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N}!rsx.\+h@{rsx.\+h}}
+\subsubsection[{R\+S\+X256\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\+S\+X256\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N~(({\bf R\+S\+X256\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T} + 1) $\ast$ ({\bf R\+S\+X\+\_\+\+B\+L\+O\+C\+K\+\_\+\+S\+I\+Z\+E} / {\bf R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+E\+L\+E\+M\+E\+N\+T\+\_\+\+S\+I\+Z\+E}))}\label{rsx_8h_ac6f8f9e6f6051a99776674e1bdfa3e8f}
+The number of rounds keys (array elements) used by R\+S\+X256 \hypertarget{rsx_8h_ac9b8f8c9b72c89fe07de0f4313131396}{}\index{rsx.\+h@{rsx.\+h}!R\+S\+X512\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E@{R\+S\+X512\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E}}
+\index{R\+S\+X512\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E@{R\+S\+X512\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E}!rsx.\+h@{rsx.\+h}}
+\subsubsection[{R\+S\+X512\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\+S\+X512\+\_\+\+K\+E\+Y\+\_\+\+S\+I\+Z\+E~64}\label{rsx_8h_ac9b8f8c9b72c89fe07de0f4313131396}
+The size in bytes of the R\+S\+X512 input cipher-\/key \hypertarget{rsx_8h_a57bb0fc4002f6604f8b4bc5545ba913c}{}\index{rsx.\+h@{rsx.\+h}!R\+S\+X512\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T@{R\+S\+X512\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T}}
+\index{R\+S\+X512\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T@{R\+S\+X512\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T}!rsx.\+h@{rsx.\+h}}
+\subsubsection[{R\+S\+X512\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\+S\+X512\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T~30}\label{rsx_8h_a57bb0fc4002f6604f8b4bc5545ba913c}
+The number of rijndael rounds used by R\+S\+X512 \hypertarget{rsx_8h_ab5034ea119012c12a2fc076d8df22564}{}\index{rsx.\+h@{rsx.\+h}!R\+S\+X512\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N@{R\+S\+X512\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N}}
+\index{R\+S\+X512\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N@{R\+S\+X512\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N}!rsx.\+h@{rsx.\+h}}
+\subsubsection[{R\+S\+X512\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\+S\+X512\+\_\+\+R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+D\+I\+M\+E\+N\+S\+I\+O\+N~(({\bf R\+S\+X512\+\_\+\+R\+O\+U\+N\+D\+\_\+\+C\+O\+U\+N\+T} + 1) $\ast$ ({\bf R\+S\+X\+\_\+\+B\+L\+O\+C\+K\+\_\+\+S\+I\+Z\+E} / {\bf R\+O\+U\+N\+D\+K\+E\+Y\+\_\+\+E\+L\+E\+M\+E\+N\+T\+\_\+\+S\+I\+Z\+E}))}\label{rsx_8h_ab5034ea119012c12a2fc076d8df22564}
+The number of rounds keys (array elements) used by R\+S\+X512 \hypertarget{rsx_8h_a203aa264801cda118ff52897679ae4ff}{}\index{rsx.\+h@{rsx.\+h}!R\+S\+X\+\_\+\+B\+L\+O\+C\+K\+\_\+\+S\+I\+Z\+E@{R\+S\+X\+\_\+\+B\+L\+O\+C\+K\+\_\+\+S\+I\+Z\+E}}
+\index{R\+S\+X\+\_\+\+B\+L\+O\+C\+K\+\_\+\+S\+I\+Z\+E@{R\+S\+X\+\_\+\+B\+L\+O\+C\+K\+\_\+\+S\+I\+Z\+E}!rsx.\+h@{rsx.\+h}}
+\subsubsection[{R\+S\+X\+\_\+\+B\+L\+O\+C\+K\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\+S\+X\+\_\+\+B\+L\+O\+C\+K\+\_\+\+S\+I\+Z\+E~16}\label{rsx_8h_a203aa264801cda118ff52897679ae4ff}
+The number of input/output bytes required by the function 
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{rsx_8h_aeedaf8017f8d6518f7dedef365bbae43}{}\index{rsx.\+h@{rsx.\+h}!cipher\+\_\+mode@{cipher\+\_\+mode}}
+\index{cipher\+\_\+mode@{cipher\+\_\+mode}!rsx.\+h@{rsx.\+h}}
+\subsubsection[{cipher\+\_\+mode}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf cipher\+\_\+mode}}\label{rsx_8h_aeedaf8017f8d6518f7dedef365bbae43}
+The pre-\/defined cipher mode implementations \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{C\+B\+C@{C\+B\+C}!rsx.\+h@{rsx.\+h}}\index{rsx.\+h@{rsx.\+h}!C\+B\+C@{C\+B\+C}}\item[{\em 
+\hypertarget{rsx_8h_aeedaf8017f8d6518f7dedef365bbae43a4ace9ef28707cb98c2ccaaff518b3a49}{}C\+B\+C\label{rsx_8h_aeedaf8017f8d6518f7dedef365bbae43a4ace9ef28707cb98c2ccaaff518b3a49}
+}]cipher block chaining \index{C\+T\+R@{C\+T\+R}!rsx.\+h@{rsx.\+h}}\index{rsx.\+h@{rsx.\+h}!C\+T\+R@{C\+T\+R}}\item[{\em 
+\hypertarget{rsx_8h_aeedaf8017f8d6518f7dedef365bbae43a7ab14ded2636fb92a2e0ca9238249f01}{}C\+T\+R\label{rsx_8h_aeedaf8017f8d6518f7dedef365bbae43a7ab14ded2636fb92a2e0ca9238249f01}
+}]segmented integer counter \index{E\+C\+B@{E\+C\+B}!rsx.\+h@{rsx.\+h}}\index{rsx.\+h@{rsx.\+h}!E\+C\+B@{E\+C\+B}}\item[{\em 
+\hypertarget{rsx_8h_aeedaf8017f8d6518f7dedef365bbae43a7d741b13309dda6483a636c9d75e009e}{}E\+C\+B\label{rsx_8h_aeedaf8017f8d6518f7dedef365bbae43a7d741b13309dda6483a636c9d75e009e}
+}]electronic code\+Book mode \index{G\+C\+M@{G\+C\+M}!rsx.\+h@{rsx.\+h}}\index{rsx.\+h@{rsx.\+h}!G\+C\+M@{G\+C\+M}}\item[{\em 
+\hypertarget{rsx_8h_aeedaf8017f8d6518f7dedef365bbae43a313f9e8f1ff4fdfe84c642fdb62b8aab}{}G\+C\+M\label{rsx_8h_aeedaf8017f8d6518f7dedef365bbae43a313f9e8f1ff4fdfe84c642fdb62b8aab}
+}]galois counter mode \end{description}
+\end{Desc}
+\hypertarget{rsx_8h_a210553ce0095c77704d972532f9ebc2b}{}\index{rsx.\+h@{rsx.\+h}!cipher\+\_\+type@{cipher\+\_\+type}}
+\index{cipher\+\_\+type@{cipher\+\_\+type}!rsx.\+h@{rsx.\+h}}
+\subsubsection[{cipher\+\_\+type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf cipher\+\_\+type}}\label{rsx_8h_a210553ce0095c77704d972532f9ebc2b}
+The pre-\/defined cipher implementations \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{A\+E\+S128@{A\+E\+S128}!rsx.\+h@{rsx.\+h}}\index{rsx.\+h@{rsx.\+h}!A\+E\+S128@{A\+E\+S128}}\item[{\em 
+\hypertarget{rsx_8h_a210553ce0095c77704d972532f9ebc2ba1832208b0a725185016b59150ff74fc4}{}A\+E\+S128\label{rsx_8h_a210553ce0095c77704d972532f9ebc2ba1832208b0a725185016b59150ff74fc4}
+}]standard A\+E\+S128 implementation \index{A\+E\+S256@{A\+E\+S256}!rsx.\+h@{rsx.\+h}}\index{rsx.\+h@{rsx.\+h}!A\+E\+S256@{A\+E\+S256}}\item[{\em 
+\hypertarget{rsx_8h_a210553ce0095c77704d972532f9ebc2bac5fd1447393aadba145b2e484061be6b}{}A\+E\+S256\label{rsx_8h_a210553ce0095c77704d972532f9ebc2bac5fd1447393aadba145b2e484061be6b}
+}]standard A\+E\+S256 implementation \index{R\+S\+X256@{R\+S\+X256}!rsx.\+h@{rsx.\+h}}\index{rsx.\+h@{rsx.\+h}!R\+S\+X256@{R\+S\+X256}}\item[{\em 
+\hypertarget{rsx_8h_a210553ce0095c77704d972532f9ebc2bad18062eccf646cad2fd8404cc8908930}{}R\+S\+X256\label{rsx_8h_a210553ce0095c77704d972532f9ebc2bad18062eccf646cad2fd8404cc8908930}
+}]extended R\+S\+X256 implementation \index{R\+S\+X512@{R\+S\+X512}!rsx.\+h@{rsx.\+h}}\index{rsx.\+h@{rsx.\+h}!R\+S\+X512@{R\+S\+X512}}\item[{\em 
+\hypertarget{rsx_8h_a210553ce0095c77704d972532f9ebc2ba77b6c951dbf23e4b65af660464e5184a}{}R\+S\+X512\label{rsx_8h_a210553ce0095c77704d972532f9ebc2ba77b6c951dbf23e4b65af660464e5184a}
+}]extended R\+S\+X512 implementation \end{description}
+\end{Desc}
+\hypertarget{rsx_8h_a493e495558ca9f23e8c2d2da33a7f81c}{}\index{rsx.\+h@{rsx.\+h}!rsx\+\_\+status@{rsx\+\_\+status}}
+\index{rsx\+\_\+status@{rsx\+\_\+status}!rsx.\+h@{rsx.\+h}}
+\subsubsection[{rsx\+\_\+status}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf rsx\+\_\+status}}\label{rsx_8h_a493e495558ca9f23e8c2d2da33a7f81c}
+The R\+S\+X operational result state \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{R\+S\+X\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+S\+U\+C\+C\+E\+S\+S@{R\+S\+X\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+S\+U\+C\+C\+E\+S\+S}!rsx.\+h@{rsx.\+h}}\index{rsx.\+h@{rsx.\+h}!R\+S\+X\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+S\+U\+C\+C\+E\+S\+S@{R\+S\+X\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+S\+U\+C\+C\+E\+S\+S}}\item[{\em 
+\hypertarget{rsx_8h_a493e495558ca9f23e8c2d2da33a7f81cac817edf68b2429ea678b8293f69dd8f1}{}R\+S\+X\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+S\+U\+C\+C\+E\+S\+S\label{rsx_8h_a493e495558ca9f23e8c2d2da33a7f81cac817edf68b2429ea678b8293f69dd8f1}
+}]signals operation success \index{R\+S\+X\+\_\+\+E\+R\+R\+O\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E@{R\+S\+X\+\_\+\+E\+R\+R\+O\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E}!rsx.\+h@{rsx.\+h}}\index{rsx.\+h@{rsx.\+h}!R\+S\+X\+\_\+\+E\+R\+R\+O\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E@{R\+S\+X\+\_\+\+E\+R\+R\+O\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E}}\item[{\em 
+\hypertarget{rsx_8h_a493e495558ca9f23e8c2d2da33a7f81ca55860fdc3809b6dc6f2c359dea5f998b}{}R\+S\+X\+\_\+\+E\+R\+R\+O\+R\+\_\+\+F\+A\+I\+L\+U\+R\+E\label{rsx_8h_a493e495558ca9f23e8c2d2da33a7f81ca55860fdc3809b6dc6f2c359dea5f998b}
+}]signals general failure \index{R\+S\+X\+\_\+\+E\+R\+R\+O\+R\+\_\+\+I\+N\+V\+A\+L\+I\+D@{R\+S\+X\+\_\+\+E\+R\+R\+O\+R\+\_\+\+I\+N\+V\+A\+L\+I\+D}!rsx.\+h@{rsx.\+h}}\index{rsx.\+h@{rsx.\+h}!R\+S\+X\+\_\+\+E\+R\+R\+O\+R\+\_\+\+I\+N\+V\+A\+L\+I\+D@{R\+S\+X\+\_\+\+E\+R\+R\+O\+R\+\_\+\+I\+N\+V\+A\+L\+I\+D}}\item[{\em 
+\hypertarget{rsx_8h_a493e495558ca9f23e8c2d2da33a7f81caf381b81135155c76792dc6b3b9c8706c}{}R\+S\+X\+\_\+\+E\+R\+R\+O\+R\+\_\+\+I\+N\+V\+A\+L\+I\+D\label{rsx_8h_a493e495558ca9f23e8c2d2da33a7f81caf381b81135155c76792dc6b3b9c8706c}
+}]invalid parameter input \index{R\+S\+X\+\_\+\+E\+R\+R\+O\+R\+\_\+\+A\+U\+T\+H\+F\+A\+I\+L@{R\+S\+X\+\_\+\+E\+R\+R\+O\+R\+\_\+\+A\+U\+T\+H\+F\+A\+I\+L}!rsx.\+h@{rsx.\+h}}\index{rsx.\+h@{rsx.\+h}!R\+S\+X\+\_\+\+E\+R\+R\+O\+R\+\_\+\+A\+U\+T\+H\+F\+A\+I\+L@{R\+S\+X\+\_\+\+E\+R\+R\+O\+R\+\_\+\+A\+U\+T\+H\+F\+A\+I\+L}}\item[{\em 
+\hypertarget{rsx_8h_a493e495558ca9f23e8c2d2da33a7f81caedbd46a8a92cbb127c2a7b86f3017f94}{}R\+S\+X\+\_\+\+E\+R\+R\+O\+R\+\_\+\+A\+U\+T\+H\+F\+A\+I\+L\label{rsx_8h_a493e495558ca9f23e8c2d2da33a7f81caedbd46a8a92cbb127c2a7b86f3017f94}
+}]state authentication failure \index{R\+S\+X\+\_\+\+E\+R\+R\+O\+R\+\_\+\+R\+A\+N\+D\+F\+A\+I\+L@{R\+S\+X\+\_\+\+E\+R\+R\+O\+R\+\_\+\+R\+A\+N\+D\+F\+A\+I\+L}!rsx.\+h@{rsx.\+h}}\index{rsx.\+h@{rsx.\+h}!R\+S\+X\+\_\+\+E\+R\+R\+O\+R\+\_\+\+R\+A\+N\+D\+F\+A\+I\+L@{R\+S\+X\+\_\+\+E\+R\+R\+O\+R\+\_\+\+R\+A\+N\+D\+F\+A\+I\+L}}\item[{\em 
+\hypertarget{rsx_8h_a493e495558ca9f23e8c2d2da33a7f81ca08f202cdd1631e051709ff7ddbc15f28}{}R\+S\+X\+\_\+\+E\+R\+R\+O\+R\+\_\+\+R\+A\+N\+D\+F\+A\+I\+L\label{rsx_8h_a493e495558ca9f23e8c2d2da33a7f81ca08f202cdd1631e051709ff7ddbc15f28}
+}]system random failure \end{description}
+\end{Desc}
+
+
+\subsection{Function Documentation}
+\hypertarget{rsx_8h_a28fbf8adaee55da9289a885dd37d9bb3}{}\index{rsx.\+h@{rsx.\+h}!rsx\+\_\+cbc\+\_\+decrypt@{rsx\+\_\+cbc\+\_\+decrypt}}
+\index{rsx\+\_\+cbc\+\_\+decrypt@{rsx\+\_\+cbc\+\_\+decrypt}!rsx.\+h@{rsx.\+h}}
+\subsubsection[{rsx\+\_\+cbc\+\_\+decrypt}]{\setlength{\rightskip}{0pt plus 5cm}void rsx\+\_\+cbc\+\_\+decrypt (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t $\ast$}]{output, }
+\item[{uint8\+\_\+t $\ast$}]{iv, }
+\item[{const uint8\+\_\+t $\ast$}]{input, }
+\item[{const uint32\+\_\+t $\ast$}]{rkeys, }
+\item[{size\+\_\+t}]{rkeylen}
+\end{DoxyParamCaption}
+)}\label{rsx_8h_a28fbf8adaee55da9289a885dd37d9bb3}
+
+
+Decrypt one (16 byte) block of cipher-\/text using Cipher Block Chaining (C\+B\+C) mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em output} & The output byte array; receives the decrypted plain-\/text \\
+\hline
+{\em iv} & The initialization vector; must be 16 bytes in length \\
+\hline
+{\em input} & The input cipher-\/text block of bytes \\
+\hline
+{\em rkeys} & The round key array, generated with the initialize function \\
+\hline
+{\em rkeylen} & The number of round keys in the rkey array \\
+\hline
+\end{DoxyParams}
+\hypertarget{rsx_8h_a81aec763ef220fcd6b49036bf6d59e96}{}\index{rsx.\+h@{rsx.\+h}!rsx\+\_\+cbc\+\_\+encrypt@{rsx\+\_\+cbc\+\_\+encrypt}}
+\index{rsx\+\_\+cbc\+\_\+encrypt@{rsx\+\_\+cbc\+\_\+encrypt}!rsx.\+h@{rsx.\+h}}
+\subsubsection[{rsx\+\_\+cbc\+\_\+encrypt}]{\setlength{\rightskip}{0pt plus 5cm}void rsx\+\_\+cbc\+\_\+encrypt (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t $\ast$}]{output, }
+\item[{uint8\+\_\+t $\ast$}]{iv, }
+\item[{const uint8\+\_\+t $\ast$}]{input, }
+\item[{const uint32\+\_\+t $\ast$}]{rkeys, }
+\item[{size\+\_\+t}]{rkeylen}
+\end{DoxyParamCaption}
+)}\label{rsx_8h_a81aec763ef220fcd6b49036bf6d59e96}
+
+
+Encrypt one (16 byte) block of plain-\/text using Cipher Block Chaining (C\+B\+C) mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em output} & The output byte array; receives the encrypted cipher-\/text \\
+\hline
+{\em iv} & The initialization vector; must be 16 bytes in length \\
+\hline
+{\em input} & The input plain-\/text block of bytes \\
+\hline
+{\em rkeys} & The round key array, generated with the initialize function \\
+\hline
+{\em rkeylen} & The number of round keys in the rkey array \\
+\hline
+\end{DoxyParams}
+\hypertarget{rsx_8h_a57c1d9e4bb01d6e51fb41373c7186b63}{}\index{rsx.\+h@{rsx.\+h}!rsx\+\_\+ctr\+\_\+transform@{rsx\+\_\+ctr\+\_\+transform}}
+\index{rsx\+\_\+ctr\+\_\+transform@{rsx\+\_\+ctr\+\_\+transform}!rsx.\+h@{rsx.\+h}}
+\subsubsection[{rsx\+\_\+ctr\+\_\+transform}]{\setlength{\rightskip}{0pt plus 5cm}void rsx\+\_\+ctr\+\_\+transform (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t $\ast$}]{output, }
+\item[{uint8\+\_\+t $\ast$}]{nonce, }
+\item[{const uint8\+\_\+t $\ast$}]{input, }
+\item[{const uint32\+\_\+t $\ast$}]{rkeys, }
+\item[{size\+\_\+t}]{rkeylen}
+\end{DoxyParamCaption}
+)}\label{rsx_8h_a57c1d9e4bb01d6e51fb41373c7186b63}
+
+
+Encrypt/\+Decrypt one (16 byte) block of plain-\/text using a segmented integer counter (C\+T\+R) mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em output} & The output byte array; receives the encrypted cipher-\/text \\
+\hline
+{\em nonce} & The initialization vector; must be 16 bytes in length \\
+\hline
+{\em input} & The input plain-\/text block of bytes \\
+\hline
+{\em rkeys} & The round key array, generated with the initialize function \\
+\hline
+{\em rkeylen} & The number of round keys in the rkey array \\
+\hline
+\end{DoxyParams}
+\hypertarget{rsx_8h_a3877431af4c219517f74617dd3194418}{}\index{rsx.\+h@{rsx.\+h}!rsx\+\_\+ecb\+\_\+decrypt@{rsx\+\_\+ecb\+\_\+decrypt}}
+\index{rsx\+\_\+ecb\+\_\+decrypt@{rsx\+\_\+ecb\+\_\+decrypt}!rsx.\+h@{rsx.\+h}}
+\subsubsection[{rsx\+\_\+ecb\+\_\+decrypt}]{\setlength{\rightskip}{0pt plus 5cm}void rsx\+\_\+ecb\+\_\+decrypt (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t $\ast$}]{output, }
+\item[{const uint8\+\_\+t $\ast$}]{input, }
+\item[{const uint32\+\_\+t $\ast$}]{rkeys, }
+\item[{size\+\_\+t}]{rkeylen}
+\end{DoxyParamCaption}
+)}\label{rsx_8h_a3877431af4c219517f74617dd3194418}
+
+
+Decrypt one (16 byte) block of cipher-\/text using Electronic Code\+Book Mode (E\+C\+B) mode. ~\newline
+E\+C\+B is not a secure mode, and should be used only for testing, or building more complex primitives. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em output} & The output byte array; receives the decrypted plain-\/text \\
+\hline
+{\em input} & The input cipher-\/text block of bytes \\
+\hline
+{\em rkeys} & The round key array, generated with the initialize function \\
+\hline
+{\em rkeylen} & The number of round keys in the rkey array \\
+\hline
+\end{DoxyParams}
+\hypertarget{rsx_8h_ae3d0e29903a643e049860a88802518d3}{}\index{rsx.\+h@{rsx.\+h}!rsx\+\_\+ecb\+\_\+encrypt@{rsx\+\_\+ecb\+\_\+encrypt}}
+\index{rsx\+\_\+ecb\+\_\+encrypt@{rsx\+\_\+ecb\+\_\+encrypt}!rsx.\+h@{rsx.\+h}}
+\subsubsection[{rsx\+\_\+ecb\+\_\+encrypt}]{\setlength{\rightskip}{0pt plus 5cm}void rsx\+\_\+ecb\+\_\+encrypt (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t $\ast$}]{output, }
+\item[{const uint8\+\_\+t $\ast$}]{input, }
+\item[{const uint32\+\_\+t $\ast$}]{rkeys, }
+\item[{size\+\_\+t}]{rkeylen}
+\end{DoxyParamCaption}
+)}\label{rsx_8h_ae3d0e29903a643e049860a88802518d3}
+
+
+Encrypt one (16 byte) block of cipher-\/text using Electronic Code\+Book Mode (E\+C\+B) mode. ~\newline
+E\+C\+B is not a secure mode, and should be used only for testing, or building more complex primitives. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em output} & The output byte array; receives the encrypted cipher-\/text \\
+\hline
+{\em input} & The input plain-\/text block of bytes \\
+\hline
+{\em rkeys} & The round key array, generated with the initialize function \\
+\hline
+{\em rkeylen} & The number of round keys in the rkey array \\
+\hline
+\end{DoxyParams}
+\hypertarget{rsx_8h_aa095f00fc01083d97631759e4c509ba6}{}\index{rsx.\+h@{rsx.\+h}!rsx\+\_\+initialize@{rsx\+\_\+initialize}}
+\index{rsx\+\_\+initialize@{rsx\+\_\+initialize}!rsx.\+h@{rsx.\+h}}
+\subsubsection[{rsx\+\_\+initialize}]{\setlength{\rightskip}{0pt plus 5cm}{\bf rsx\+\_\+status} rsx\+\_\+initialize (
+\begin{DoxyParamCaption}
+\item[{uint32\+\_\+t $\ast$}]{roundkeys, }
+\item[{const uint8\+\_\+t $\ast$}]{inputkey, }
+\item[{bool}]{encryption, }
+\item[{{\bf cipher\+\_\+type}}]{cipher}
+\end{DoxyParamCaption}
+)}\label{rsx_8h_aa095f00fc01083d97631759e4c509ba6}
+
+
+Initialize the round key array (key schedule) to the rkey array. ~\newline
+A\+E\+S128 and A\+E\+S256 use the traditional rijndael key schedule, R\+S\+X256 and R\+S\+X512 use the S\+H\+A\+K\+E256 kdf. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em roundkeys} & The output array of round keys generated by the key schedule \\
+\hline
+{\em inputkey} & The input cipher-\/key, expanded to the rkeys array \\
+\hline
+{\em encryption} & Initialize the key scheduule for encryption, false for decryption \\
+\hline
+{\em cipher} & The cipher type; (A\+E\+S128, A\+E\+S256, R\+S\+X256, or R\+S\+X512) determines the rkey size, and how the round keys are generated \\
+\hline
+\end{DoxyParams}

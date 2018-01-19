@@ -1,0 +1,193 @@
+\hypertarget{aes__kat_8h}{}\section{C\+:/\+Users/\+John/\+Documents/\+Visual Studio 2015/\+Projects/\+Cryptography/\+R\+S\+X/\+R\+S\+X/aes\+\_\+kat.h File Reference}
+\label{aes__kat_8h}\index{C\+:/\+Users/\+John/\+Documents/\+Visual Studio 2015/\+Projects/\+Cryptography/\+R\+S\+X/\+R\+S\+X/aes\+\_\+kat.\+h@{C\+:/\+Users/\+John/\+Documents/\+Visual Studio 2015/\+Projects/\+Cryptography/\+R\+S\+X/\+R\+S\+X/aes\+\_\+kat.\+h}}
+
+
+{\bfseries A\+E\+S Known Answer Tests} ~\newline
+Rijndael known answer comparison (K\+A\+T) tests. ~\newline
+Test vectors from the N\+I\+S\+T standard tests contained in A\+E\+S specification document, Appendix C. ~\newline
+F\+I\+P\+S 197\+: \href{http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf}{\tt The Advanced Encryption Standard}. ~\newline
+New vectors have been added for the extended modes R\+S\+X256 and R\+S\+X512,  
+
+
+{\ttfamily \#include \char`\"{}common.\+h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{aes__kat_8h_a2c5766b0f358e47ff904a5000ce660ca}{aes128\+\_\+cbc\+\_\+kat\+\_\+test} ()
+\begin{DoxyCompactList}\small\item\em Tests the C\+B\+C 128bit key K\+A\+T vectors from N\+I\+S\+T S\+P800-\/85a. \end{DoxyCompactList}\item 
+bool \hyperlink{aes__kat_8h_a45aeb490291dd8b1cea3a1f5d3cf9cb9}{aes256\+\_\+cbc\+\_\+kat\+\_\+test} ()
+\begin{DoxyCompactList}\small\item\em Tests the C\+B\+C 256bit key K\+A\+T vectors from N\+I\+S\+T S\+P800-\/85a. \end{DoxyCompactList}\item 
+bool \hyperlink{aes__kat_8h_ae663d59ae6f3d3637339c16bc45170df}{aes128\+\_\+ctr\+\_\+kat\+\_\+test} ()
+\begin{DoxyCompactList}\small\item\em Tests the C\+T\+R 128bit key K\+A\+T vectors from N\+I\+S\+T S\+P800-\/85a. \end{DoxyCompactList}\item 
+bool \hyperlink{aes__kat_8h_adea4fcf5b2617649e687db883ba76df9}{aes256\+\_\+ctr\+\_\+kat\+\_\+test} ()
+\begin{DoxyCompactList}\small\item\em Tests the C\+T\+R 128bit key K\+A\+T vectors from N\+I\+S\+T S\+P800-\/85a. \end{DoxyCompactList}\item 
+bool \hyperlink{aes__kat_8h_a3c4caf4178fc5be3b4bfbc56cd7c0e00}{aes128\+\_\+ecb\+\_\+kat\+\_\+test} ()
+\begin{DoxyCompactList}\small\item\em Tests the E\+C\+B mode 128bit key K\+A\+T vectors from N\+I\+S\+T F\+I\+P\+S197 and S\+P800-\/85a. \end{DoxyCompactList}\item 
+bool \hyperlink{aes__kat_8h_a686d9eb558c35de5797ae5fa65f1075b}{aes256\+\_\+ecb\+\_\+kat\+\_\+test} ()
+\begin{DoxyCompactList}\small\item\em Tests the E\+C\+B 256bit key K\+A\+T vectors from N\+I\+S\+T F\+I\+P\+S197 and S\+P800-\/85a. \end{DoxyCompactList}\item 
+bool \hyperlink{aes__kat_8h_abf2fe0fd659549099195a7a153aebb4b}{rsx256\+\_\+ecb\+\_\+kat\+\_\+test} ()
+\begin{DoxyCompactList}\small\item\em Tests the 256bit key K\+A\+T vectors from F\+I\+P\+S197. \end{DoxyCompactList}\item 
+bool \hyperlink{aes__kat_8h_abc400057217b4d83827ab03176256ee7}{rsx512\+\_\+ecb\+\_\+kat\+\_\+test} ()
+\begin{DoxyCompactList}\small\item\em Tests the new 512bit key K\+A\+T vectors generated for the R\+S\+X512 extension. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+{\bfseries A\+E\+S Known Answer Tests} ~\newline
+Rijndael known answer comparison (K\+A\+T) tests. ~\newline
+Test vectors from the N\+I\+S\+T standard tests contained in A\+E\+S specification document, Appendix C. ~\newline
+F\+I\+P\+S 197\+: \href{http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf}{\tt The Advanced Encryption Standard}. ~\newline
+New vectors have been added for the extended modes R\+S\+X256 and R\+S\+X512, 
+
+\begin{DoxyAuthor}{Author}
+John Underhill 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+January 15, 2018 
+\end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\hypertarget{aes__kat_8h_a2c5766b0f358e47ff904a5000ce660ca}{}\index{aes\+\_\+kat.\+h@{aes\+\_\+kat.\+h}!aes128\+\_\+cbc\+\_\+kat\+\_\+test@{aes128\+\_\+cbc\+\_\+kat\+\_\+test}}
+\index{aes128\+\_\+cbc\+\_\+kat\+\_\+test@{aes128\+\_\+cbc\+\_\+kat\+\_\+test}!aes\+\_\+kat.\+h@{aes\+\_\+kat.\+h}}
+\subsubsection[{aes128\+\_\+cbc\+\_\+kat\+\_\+test}]{\setlength{\rightskip}{0pt plus 5cm}bool aes128\+\_\+cbc\+\_\+kat\+\_\+test (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{aes__kat_8h_a2c5766b0f358e47ff904a5000ce660ca}
+
+
+Tests the C\+B\+C 128bit key K\+A\+T vectors from N\+I\+S\+T S\+P800-\/85a. 
+
+\begin{DoxyReturn}{Returns}
+Returns true for success
+\end{DoxyReturn}
+\begin{DoxyRemark}{Remarks}
+{\bfseries Test References\+:} ~\newline
+S\+P800-\/38a\+: \href{http://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38a.pdf}{\tt Block Cipher Modes of Operations} 
+\end{DoxyRemark}
+\hypertarget{aes__kat_8h_ae663d59ae6f3d3637339c16bc45170df}{}\index{aes\+\_\+kat.\+h@{aes\+\_\+kat.\+h}!aes128\+\_\+ctr\+\_\+kat\+\_\+test@{aes128\+\_\+ctr\+\_\+kat\+\_\+test}}
+\index{aes128\+\_\+ctr\+\_\+kat\+\_\+test@{aes128\+\_\+ctr\+\_\+kat\+\_\+test}!aes\+\_\+kat.\+h@{aes\+\_\+kat.\+h}}
+\subsubsection[{aes128\+\_\+ctr\+\_\+kat\+\_\+test}]{\setlength{\rightskip}{0pt plus 5cm}bool aes128\+\_\+ctr\+\_\+kat\+\_\+test (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{aes__kat_8h_ae663d59ae6f3d3637339c16bc45170df}
+
+
+Tests the C\+T\+R 128bit key K\+A\+T vectors from N\+I\+S\+T S\+P800-\/85a. 
+
+\begin{DoxyReturn}{Returns}
+Returns true for success
+\end{DoxyReturn}
+\begin{DoxyRemark}{Remarks}
+{\bfseries Test References\+:} ~\newline
+S\+P800-\/38a\+: \href{http://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38a.pdf}{\tt Block Cipher Modes of Operations} 
+\end{DoxyRemark}
+\hypertarget{aes__kat_8h_a3c4caf4178fc5be3b4bfbc56cd7c0e00}{}\index{aes\+\_\+kat.\+h@{aes\+\_\+kat.\+h}!aes128\+\_\+ecb\+\_\+kat\+\_\+test@{aes128\+\_\+ecb\+\_\+kat\+\_\+test}}
+\index{aes128\+\_\+ecb\+\_\+kat\+\_\+test@{aes128\+\_\+ecb\+\_\+kat\+\_\+test}!aes\+\_\+kat.\+h@{aes\+\_\+kat.\+h}}
+\subsubsection[{aes128\+\_\+ecb\+\_\+kat\+\_\+test}]{\setlength{\rightskip}{0pt plus 5cm}bool aes128\+\_\+ecb\+\_\+kat\+\_\+test (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{aes__kat_8h_a3c4caf4178fc5be3b4bfbc56cd7c0e00}
+
+
+Tests the E\+C\+B mode 128bit key K\+A\+T vectors from N\+I\+S\+T F\+I\+P\+S197 and S\+P800-\/85a. 
+
+\begin{DoxyReturn}{Returns}
+Returns true for success
+\end{DoxyReturn}
+\begin{DoxyRemark}{Remarks}
+{\bfseries Test References\+:} ~\newline
+Fips197\+: \href{http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf}{\tt The Advanced Encryption Standard, Appendix C.\+1} S\+P800-\/38a\+: \href{http://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38a.pdf}{\tt Block Cipher Modes of Operations} 
+\end{DoxyRemark}
+\hypertarget{aes__kat_8h_a45aeb490291dd8b1cea3a1f5d3cf9cb9}{}\index{aes\+\_\+kat.\+h@{aes\+\_\+kat.\+h}!aes256\+\_\+cbc\+\_\+kat\+\_\+test@{aes256\+\_\+cbc\+\_\+kat\+\_\+test}}
+\index{aes256\+\_\+cbc\+\_\+kat\+\_\+test@{aes256\+\_\+cbc\+\_\+kat\+\_\+test}!aes\+\_\+kat.\+h@{aes\+\_\+kat.\+h}}
+\subsubsection[{aes256\+\_\+cbc\+\_\+kat\+\_\+test}]{\setlength{\rightskip}{0pt plus 5cm}bool aes256\+\_\+cbc\+\_\+kat\+\_\+test (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{aes__kat_8h_a45aeb490291dd8b1cea3a1f5d3cf9cb9}
+
+
+Tests the C\+B\+C 256bit key K\+A\+T vectors from N\+I\+S\+T S\+P800-\/85a. 
+
+\begin{DoxyReturn}{Returns}
+Returns true for success
+\end{DoxyReturn}
+\begin{DoxyRemark}{Remarks}
+{\bfseries Test References\+:} ~\newline
+S\+P800-\/38a\+: \href{http://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38a.pdf}{\tt Block Cipher Modes of Operations} 
+\end{DoxyRemark}
+\hypertarget{aes__kat_8h_adea4fcf5b2617649e687db883ba76df9}{}\index{aes\+\_\+kat.\+h@{aes\+\_\+kat.\+h}!aes256\+\_\+ctr\+\_\+kat\+\_\+test@{aes256\+\_\+ctr\+\_\+kat\+\_\+test}}
+\index{aes256\+\_\+ctr\+\_\+kat\+\_\+test@{aes256\+\_\+ctr\+\_\+kat\+\_\+test}!aes\+\_\+kat.\+h@{aes\+\_\+kat.\+h}}
+\subsubsection[{aes256\+\_\+ctr\+\_\+kat\+\_\+test}]{\setlength{\rightskip}{0pt plus 5cm}bool aes256\+\_\+ctr\+\_\+kat\+\_\+test (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{aes__kat_8h_adea4fcf5b2617649e687db883ba76df9}
+
+
+Tests the C\+T\+R 128bit key K\+A\+T vectors from N\+I\+S\+T S\+P800-\/85a. 
+
+\begin{DoxyReturn}{Returns}
+Returns true for success
+\end{DoxyReturn}
+\begin{DoxyRemark}{Remarks}
+{\bfseries Test References\+:} ~\newline
+S\+P800-\/38a\+: \href{http://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38a.pdf}{\tt Block Cipher Modes of Operations} 
+\end{DoxyRemark}
+\hypertarget{aes__kat_8h_a686d9eb558c35de5797ae5fa65f1075b}{}\index{aes\+\_\+kat.\+h@{aes\+\_\+kat.\+h}!aes256\+\_\+ecb\+\_\+kat\+\_\+test@{aes256\+\_\+ecb\+\_\+kat\+\_\+test}}
+\index{aes256\+\_\+ecb\+\_\+kat\+\_\+test@{aes256\+\_\+ecb\+\_\+kat\+\_\+test}!aes\+\_\+kat.\+h@{aes\+\_\+kat.\+h}}
+\subsubsection[{aes256\+\_\+ecb\+\_\+kat\+\_\+test}]{\setlength{\rightskip}{0pt plus 5cm}bool aes256\+\_\+ecb\+\_\+kat\+\_\+test (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{aes__kat_8h_a686d9eb558c35de5797ae5fa65f1075b}
+
+
+Tests the E\+C\+B 256bit key K\+A\+T vectors from N\+I\+S\+T F\+I\+P\+S197 and S\+P800-\/85a. 
+
+\begin{DoxyReturn}{Returns}
+Returns true for success
+\end{DoxyReturn}
+\begin{DoxyRemark}{Remarks}
+{\bfseries Test References\+:} ~\newline
+Fips197\+: \href{http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf}{\tt The Advanced Encryption Standard, Appendix C.\+3} S\+P800-\/38a\+: \href{http://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38a.pdf}{\tt Block Cipher Modes of Operations} 
+\end{DoxyRemark}
+\hypertarget{aes__kat_8h_abf2fe0fd659549099195a7a153aebb4b}{}\index{aes\+\_\+kat.\+h@{aes\+\_\+kat.\+h}!rsx256\+\_\+ecb\+\_\+kat\+\_\+test@{rsx256\+\_\+ecb\+\_\+kat\+\_\+test}}
+\index{rsx256\+\_\+ecb\+\_\+kat\+\_\+test@{rsx256\+\_\+ecb\+\_\+kat\+\_\+test}!aes\+\_\+kat.\+h@{aes\+\_\+kat.\+h}}
+\subsubsection[{rsx256\+\_\+ecb\+\_\+kat\+\_\+test}]{\setlength{\rightskip}{0pt plus 5cm}bool rsx256\+\_\+ecb\+\_\+kat\+\_\+test (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{aes__kat_8h_abf2fe0fd659549099195a7a153aebb4b}
+
+
+Tests the 256bit key K\+A\+T vectors from F\+I\+P\+S197. 
+
+\begin{DoxyReturn}{Returns}
+Returns true for success
+\end{DoxyReturn}
+\begin{DoxyRemark}{Remarks}
+{\bfseries Test References\+:} ~\newline
+These are original (and authoritative) vectors generated by this implementation 
+\end{DoxyRemark}
+\hypertarget{aes__kat_8h_abc400057217b4d83827ab03176256ee7}{}\index{aes\+\_\+kat.\+h@{aes\+\_\+kat.\+h}!rsx512\+\_\+ecb\+\_\+kat\+\_\+test@{rsx512\+\_\+ecb\+\_\+kat\+\_\+test}}
+\index{rsx512\+\_\+ecb\+\_\+kat\+\_\+test@{rsx512\+\_\+ecb\+\_\+kat\+\_\+test}!aes\+\_\+kat.\+h@{aes\+\_\+kat.\+h}}
+\subsubsection[{rsx512\+\_\+ecb\+\_\+kat\+\_\+test}]{\setlength{\rightskip}{0pt plus 5cm}bool rsx512\+\_\+ecb\+\_\+kat\+\_\+test (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{aes__kat_8h_abc400057217b4d83827ab03176256ee7}
+
+
+Tests the new 512bit key K\+A\+T vectors generated for the R\+S\+X512 extension. 
+
+\begin{DoxyReturn}{Returns}
+Returns true for success
+\end{DoxyReturn}
+\begin{DoxyRemark}{Remarks}
+{\bfseries Test References\+:} ~\newline
+These are original (and authoritative) vectors generated by this implementation 
+\end{DoxyRemark}

@@ -1,0 +1,28 @@
+\hypertarget{index_intro_sec}{}\section{Welcome}\label{index_intro_sec}
+The R\+S\+X (Rijndael Shake e\+Xtended) cipher, is a hybrid of Rijndael (A\+E\+S) and the Keccak S\+H\+A\+K\+E-\/256 extended output function. ~\newline
+The cipher has four modes, A\+E\+S128 and A\+E\+S256, which are the standard A\+E\+S configurations, and two extended modes, R\+S\+X256 and R\+S\+X512. ~\newline
+In extended mode, the key schedule has been replaced by S\+H\+A\+K\+E-\/256, which can safely produce a larger round-\/key array, ~\newline
+enabling an increased number of mixing rounds. A\+E\+S-\/128 has a round count of 10, A\+E\+S-\/256 is 14 rounds, R\+S\+X-\/256 is 22 rounds, and R\+S\+X-\/512, which uses a 512 bit cipher input-\/key, uses 30 rounds. ~\newline
+Increasing the number of rounds, increases the amount of diffusion applied to the state, which makes rijndael harder to break with differentially based attacks, ~\newline
+and by increasing the key size, maintains a high margin of security against future attacks by quantum computers.\hypertarget{index_Implementation}{}\section{Implementation}\label{index_Implementation}
+The base cipher, Rijndael, and the extended form of the cipher, can operate using one of the three provided cipher modes of operation\+: ~\newline
+Electronic Code Book mode (E\+C\+B), which can be used for testing or creating more complex algorithms, ~\newline
+a segmented integer counter (C\+T\+R), and the Cipher Block Chaining mode (C\+B\+C). ~\newline
+This implementation has both a C reference, and an implementation that uses the A\+E\+S-\/\+N\+I instructions. ~\newline
+The A\+E\+S-\/\+N\+I implementation can be enabled by adding the R\+S\+X\+\_\+\+A\+E\+S\+N\+I\+\_\+\+E\+N\+A\+B\+L\+E\+D constant to your preprocessor definitions. ~\newline
+The A\+E\+S128 and A\+E\+S256 implementations along with the C\+B\+C, C\+T\+R, and C\+B\+C modes are tested using vectors from S\+P800-\/38a. ~\newline
+S\+P800-\/38a\+: \href{http://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38a.pdf}{\tt Block Cipher Modes of Operations} ~\newline
+See the documentation and the \hyperlink{aes__kat_8h}{aes\+\_\+kat.\+h} tests for usage examples.
+
+\begin{DoxyAuthor}{Author}
+John Underhill 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\+0.\+0.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+January 17, 2018 
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+G\+P\+L version 3 license (G\+P\+Lv3) 
+\end{DoxyCopyright}

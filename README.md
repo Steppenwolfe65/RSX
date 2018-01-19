@@ -10,7 +10,7 @@ AES-128 has a round count of 10, AES-256 is 14 rounds, RSX-256 is 22 rounds, and
 
 Increasing the number of rounds, increases the amount of diffusion applied to the state, which makes rijndael harder to break with differentially based attacks, and by increasing the key size, maintains a high margin of security against future attacks by quantum computers.
 
-Implementation
+### Implementation
 The base cipher, Rijndael, and the extended form of the cipher, can operate using one of the three provided cipher modes of operation:
 Electronic Code Book mode (ECB), which can be used for testing or creating more complex algorithms,
  a segmented integer counter (CTR), and the Cipher Block Chaining mode (CBC).

@@ -18,13 +18,15 @@ Electronic Code Book mode (ECB), which can be used for testing or creating more 
 This implementation has both a C reference, and an implementation that uses the AES-NI instructions.
 The AES-NI implementation can be enabled by adding the RSX_AESNI_ENABLED constant to your preprocessor definitions.
 
-The AES128 and AES256 implementations along with the CBC, CTR, and CBC modes are tested using vectors from SP800-38a.
+The AES128 and AES256 implementations along with the ECB, CTR, and CBC modes are tested using vectors from SP800-38a.
 
 SP800-38a Block Cipher Modes of Operations: 
 http://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38a.pdf
 See the documentation and the aes_kat.h tests for usage examples.
 
-### License is GPLv3
+### License
+RSX is licensed as GPLv3
+http://www.gnu.org/licenses/
 
 ## Disclaimer
 This project contains strong cryptography, before downloading the source files, 

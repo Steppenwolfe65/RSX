@@ -64,15 +64,15 @@ static bool aes128_cbc_monte_carlo(const uint8_t* key, const uint8_t* iv, const 
 	uint8_t out[16];
 	uint8_t ivc[16];
 	size_t i;
-	bool state;
+	bool status;
 
 	memcpy(&ivc[0], &iv[0], 16);
-	state = true;
+	status = true;
 
 	/* test encryption */
 	if (rsx_initialize(rks, key, true, AES128) != RSX_STATUS_SUCCESS)
 	{
-		state = false;
+		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
@@ -81,7 +81,7 @@ static bool aes128_cbc_monte_carlo(const uint8_t* key, const uint8_t* iv, const 
 
 		if (are_equal8(out, expected[i], 16) == false)
 		{
-			state = false;
+			status = false;
 		}
 	}
 
@@ -90,7 +90,7 @@ static bool aes128_cbc_monte_carlo(const uint8_t* key, const uint8_t* iv, const 
 	/* test decryption */
 	if (rsx_initialize(rks, key, false, AES128) != RSX_STATUS_SUCCESS)
 	{
-		state = false;
+		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
@@ -99,11 +99,11 @@ static bool aes128_cbc_monte_carlo(const uint8_t* key, const uint8_t* iv, const 
 
 		if (are_equal8(out, message[i], 16) == false)
 		{
-			state = false;
+			status = false;
 		}
 	}
 
-	return state;
+	return status;
 }
 
 static bool aes256_cbc_monte_carlo(const uint8_t* key, const uint8_t* iv, const uint8_t message[4][16], const uint8_t expected[4][16])
@@ -116,15 +116,15 @@ static bool aes256_cbc_monte_carlo(const uint8_t* key, const uint8_t* iv, const 
 	uint8_t out[16];
 	uint8_t ivc[16];
 	size_t i;
-	bool state;
+	bool status;
 
 	memcpy(&ivc[0], &iv[0], 16);
-	state = true;
+	status = true;
 
 	/* test encryption */
 	if (rsx_initialize(rks, key, true, AES256) != RSX_STATUS_SUCCESS)
 	{
-		state = false;
+		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
@@ -133,7 +133,7 @@ static bool aes256_cbc_monte_carlo(const uint8_t* key, const uint8_t* iv, const 
 
 		if (are_equal8(out, expected[i], 16) == false)
 		{
-			state = false;
+			status = false;
 		}
 	}
 
@@ -142,7 +142,7 @@ static bool aes256_cbc_monte_carlo(const uint8_t* key, const uint8_t* iv, const 
 	/* test decryption */
 	if (rsx_initialize(rks, key, false, AES256) != RSX_STATUS_SUCCESS)
 	{
-		state = false;
+		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
@@ -151,11 +151,11 @@ static bool aes256_cbc_monte_carlo(const uint8_t* key, const uint8_t* iv, const 
 
 		if (are_equal8(out, message[i], 16) == false)
 		{
-			state = false;
+			status = false;
 		}
 	}
 
-	return state;
+	return status;
 }
 
 static bool aes128_ctr_monte_carlo(const uint8_t* key, const uint8_t* nonce, const uint8_t message[4][16], const uint8_t expected[4][16])
@@ -168,15 +168,15 @@ static bool aes128_ctr_monte_carlo(const uint8_t* key, const uint8_t* nonce, con
 	uint8_t out[16];
 	uint8_t ncc[16];
 	size_t i;
-	bool state;
+	bool status;
 
 	memcpy(&ncc[0], &nonce[0], 16);
-	state = true;
+	status = true;
 
 	/* test encryption */
 	if (rsx_initialize(rks, key, true, AES128) != RSX_STATUS_SUCCESS)
 	{
-		state = false;
+		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
@@ -185,7 +185,7 @@ static bool aes128_ctr_monte_carlo(const uint8_t* key, const uint8_t* nonce, con
 
 		if (are_equal8(out, expected[i], 16) == false)
 		{
-			state = false;
+			status = false;
 		}
 	}
 
@@ -194,7 +194,7 @@ static bool aes128_ctr_monte_carlo(const uint8_t* key, const uint8_t* nonce, con
 	/* test decryption */
 	if (rsx_initialize(rks, key, true, AES128) != RSX_STATUS_SUCCESS)
 	{
-		state = false;
+		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
@@ -203,11 +203,11 @@ static bool aes128_ctr_monte_carlo(const uint8_t* key, const uint8_t* nonce, con
 
 		if (are_equal8(out, message[i], 16) == false)
 		{
-			state = false;
+			status = false;
 		}
 	}
 
-	return state;
+	return status;
 }
 
 static bool aes256_ctr_monte_carlo(const uint8_t* key, const uint8_t* nonce, const uint8_t message[4][16], const uint8_t expected[4][16])
@@ -220,15 +220,15 @@ static bool aes256_ctr_monte_carlo(const uint8_t* key, const uint8_t* nonce, con
 	uint8_t out[16];
 	uint8_t ncc[16];
 	size_t i;
-	bool state;
+	bool status;
 
 	memcpy(&ncc[0], &nonce[0], 16);
-	state = true;
+	status = true;
 
 	/* test encryption */
 	if (rsx_initialize(rks, key, true, AES256) != RSX_STATUS_SUCCESS)
 	{
-		state = false;
+		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
@@ -237,7 +237,7 @@ static bool aes256_ctr_monte_carlo(const uint8_t* key, const uint8_t* nonce, con
 
 		if (are_equal8(out, expected[i], 16) == false)
 		{
-			state = false;
+			status = false;
 		}
 	}
 
@@ -246,7 +246,7 @@ static bool aes256_ctr_monte_carlo(const uint8_t* key, const uint8_t* nonce, con
 	/* test decryption */
 	if (rsx_initialize(rks, key, true, AES256) != RSX_STATUS_SUCCESS)
 	{
-		state = false;
+		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
@@ -255,11 +255,11 @@ static bool aes256_ctr_monte_carlo(const uint8_t* key, const uint8_t* nonce, con
 
 		if (are_equal8(out, message[i], 16) == false)
 		{
-			state = false;
+			status = false;
 		}
 	}
 
-	return state;
+	return status;
 }
 
 static bool aes128_ecb_monte_carlo(const uint8_t* key, const uint8_t message[4][16], const uint8_t expected[4][16])
@@ -271,14 +271,14 @@ static bool aes128_ecb_monte_carlo(const uint8_t* key, const uint8_t message[4][
 #endif
 	uint8_t out[16];
 	size_t i;
-	bool state;
+	bool status;
 
-	state = true;
+	status = true;
 
 	/* test encryption */
 	if (rsx_initialize(rks, key, true, AES128) != RSX_STATUS_SUCCESS)
 	{
-		state = false;
+		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
@@ -287,14 +287,14 @@ static bool aes128_ecb_monte_carlo(const uint8_t* key, const uint8_t message[4][
 
 		if (are_equal8(out, expected[i], 16) == false)
 		{
-			state = false;
+			status = false;
 		}
 	}
 
 	/* test decryption */
 	if (rsx_initialize(rks, key, false, AES128) != RSX_STATUS_SUCCESS)
 	{
-		state = false;
+		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
@@ -303,11 +303,11 @@ static bool aes128_ecb_monte_carlo(const uint8_t* key, const uint8_t message[4][
 
 		if (are_equal8(out, message[i], 16) == false)
 		{
-			state = false;
+			status = false;
 		}
 	}
 
-	return state;
+	return status;
 }
 
 static bool aes256_ecb_monte_carlo(const uint8_t* key, const uint8_t message[4][16], const uint8_t expected[4][16])
@@ -319,14 +319,14 @@ static bool aes256_ecb_monte_carlo(const uint8_t* key, const uint8_t message[4][
 #endif
 	uint8_t out[16];
 	size_t i;
-	bool state;
+	bool status;
 
-	state = true;
+	status = true;
 
 	/* test encryption */
 	if (rsx_initialize(rks, key, true, AES256) != RSX_STATUS_SUCCESS)
 	{
-		state = false;
+		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
@@ -335,14 +335,14 @@ static bool aes256_ecb_monte_carlo(const uint8_t* key, const uint8_t message[4][
 
 		if (are_equal8(out, expected[i], 16) == false)
 		{
-			state = false;
+			status = false;
 		}
 	}
 
 	/* test decryption */
 	if (rsx_initialize(rks, key, false, AES256) != RSX_STATUS_SUCCESS)
 	{
-		state = false;
+		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
@@ -351,11 +351,11 @@ static bool aes256_ecb_monte_carlo(const uint8_t* key, const uint8_t message[4][
 
 		if (are_equal8(out, message[i], 16) == false)
 		{
-			state = false;
+			status = false;
 		}
 	}
 
-	return state;
+	return status;
 }
 
 static void print_array8(const uint8_t* a, size_t count, size_t line)
@@ -397,14 +397,14 @@ static bool rsx256_ecb_monte_carlo(const uint8_t* key, const uint8_t message[4][
 #endif
 	uint8_t out[16];
 	size_t i;
-	bool state;
+	bool status;
 
-	state = true;
+	status = true;
 
 	/* test encryption */
 	if (rsx_initialize(rks, key, true, RSX256) != RSX_STATUS_SUCCESS)
 	{
-		state = false;
+		status = false;
 	}
 	//for (size_t i = 0; i < RSX256_ROUNDKEY_DIMENSION; i++)
 	//	print_array32(rks[i].m128i_u32, 4, 4);
@@ -414,14 +414,14 @@ static bool rsx256_ecb_monte_carlo(const uint8_t* key, const uint8_t message[4][
 
 		if (are_equal8(out, expected[i], 16) == false)
 		{
-			state = false;
+			status = false;
 		}
 	}
 
 	/* test decryption */
 	if (rsx_initialize(rks, key, false, RSX256) != RSX_STATUS_SUCCESS)
 	{
-		state = false;
+		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
@@ -430,11 +430,11 @@ static bool rsx256_ecb_monte_carlo(const uint8_t* key, const uint8_t message[4][
 
 		if (are_equal8(out, message[i], 16) == false)
 		{
-			state = false;
+			status = false;
 		}
 	}
 
-	return state;
+	return status;
 }
 
 static bool rsx512_ecb_monte_carlo(const uint8_t* key, const uint8_t message[4][16], const uint8_t expected[4][16])
@@ -446,14 +446,14 @@ static bool rsx512_ecb_monte_carlo(const uint8_t* key, const uint8_t message[4][
 #endif
 	uint8_t out[16];
 	size_t i;
-	bool state;
+	bool status;
 
-	state = true;
+	status = true;
 
 	/* test encryption */
 	if (rsx_initialize(rks, key, true, RSX512) != RSX_STATUS_SUCCESS)
 	{
-		state = false;
+		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
@@ -462,14 +462,14 @@ static bool rsx512_ecb_monte_carlo(const uint8_t* key, const uint8_t message[4][
 
 		if (are_equal8(out, expected[i], 16) == false)
 		{
-			state = false;
+			status = false;
 		}
 	}
 
 	/* test decryption */
 	if (rsx_initialize(rks, key, false, RSX512) != RSX_STATUS_SUCCESS)
 	{
-		state = false;
+		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
@@ -478,11 +478,11 @@ static bool rsx512_ecb_monte_carlo(const uint8_t* key, const uint8_t message[4][
 
 		if (are_equal8(out, message[i], 16) == false)
 		{
-			state = false;
+			status = false;
 		}
 	}
 
-	return state;
+	return status;
 }
 
 bool aes128_cbc_kat_test()

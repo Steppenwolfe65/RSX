@@ -97,7 +97,6 @@ static size_t secure_expand(__m128i* output, size_t outlen, const uint8_t* input
 			uint8_t rk[(RSX256_ROUNDKEY_DIMENSION * ROUNDKEY_ELEMENT_SIZE)];
 			shake256(rk, (RSX256_ROUNDKEY_DIMENSION * ROUNDKEY_ELEMENT_SIZE), input, inplen);
 
-
 			/* swap to le (required for kats) */
 			for (size_t i = 0; i < (RSX256_ROUNDKEY_DIMENSION * ROUNDKEY_ELEMENT_SIZE); i += 4)
 			{

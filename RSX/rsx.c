@@ -1,4 +1,5 @@
 #include "rsx.h"
+#include <string.h>
 
 #ifdef RSX_AESNI_ENABLED
 

@@ -5,10 +5,10 @@ The RSX (Rijndael Shake eXtended) cipher, is a hybrid of Rijndael (AES) and the 
 
 The cipher has four modes, AES128 and AES256, which are the standard AES configurations, and two extended modes, RSX256 and RSX512.
 
-In extended mode, the key schedule has been replaced by SHAKE-256, which can safely produce a larger round-key array, enabling an increased number of mixing rounds.
+In extended mode, the key schedule has been replaced by SHAKE-256, (or optionally cSHAKE-256), which can safely produce a larger round-key array, enabling an increased number of mixing rounds.
 AES-128 has a round count of 10, AES-256 is 14 rounds, RSX-256 is 22 rounds, and RSX-512, which uses a 512 bit cipher input-key, uses 30 rounds.
 
-Increasing the number of rounds, increases the amount of diffusion applied to the state, which makes rijndael harder to break with differentially based attacks, and by increasing the key size, maintains a high margin of security against future attacks by quantum computers.
+Increasing the number of rounds, increases the amount of diffusion applied to the state, which makes rijndael harder to break with differential or related subkey based attacks, and by increasing the key size, maintains a high margin of security against future attacks by quantum computers.
 
 ### Implementation
 The base cipher, Rijndael, and the extended form of the cipher, can operate using one of the three provided cipher modes of operation:

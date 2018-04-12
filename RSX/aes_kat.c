@@ -56,13 +56,15 @@ static void hex_to_bin(const char* str, uint8_t* output, size_t length)
 
 static bool aes128_cbc_monte_carlo(const uint8_t* key, const uint8_t* iv, const uint8_t message[4][16], const uint8_t expected[4][16])
 {
-#if defined(RSX_AESNI_ENABLED)
-	__m128i rks[AES128_ROUNDKEY_DIMENSION];
-#else
-	uint32_t rks[AES128_ROUNDKEY_DIMENSION];
-#endif
-	uint8_t out[16];
+	rsx_keyparams kp = { key, 16 };
 	uint8_t ivc[16];
+	uint8_t out[16];
+#if defined(RSX_AESNI_ENABLED)
+	__m128i rkeys[AES128_ROUNDKEY_DIMENSION];
+#else
+	uint32_t rkeys[AES128_ROUNDKEY_DIMENSION];
+#endif
+	rsx_state state = { rkeys, AES128_ROUNDKEY_DIMENSION };
 	size_t i;
 	bool status;
 
@@ -70,14 +72,14 @@ static bool aes128_cbc_monte_carlo(const uint8_t* key, const uint8_t* iv, const 
 	status = true;
 
 	/* test encryption */
-	if (rsx_initialize(rks, key, true, AES128) != RSX_STATUS_SUCCESS)
+	if (rsx_initialize(&state, &kp, true) != MQC_STATUS_FAILURE)
 	{
 		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
 	{
-		rsx_cbc_encrypt(out, ivc, message[i], rks, AES128_ROUNDKEY_DIMENSION);
+		rsx_cbc_encrypt(&state, out, ivc, message[i]);
 
 		if (are_equal8(out, expected[i], 16) == false)
 		{
@@ -88,14 +90,14 @@ static bool aes128_cbc_monte_carlo(const uint8_t* key, const uint8_t* iv, const 
 	memcpy(&ivc[0], &iv[0], 16);
 
 	/* test decryption */
-	if (rsx_initialize(rks, key, false, AES128) != RSX_STATUS_SUCCESS)
+	if (rsx_initialize(&state, &kp, false) != MQC_STATUS_FAILURE)
 	{
 		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
 	{
-		rsx_cbc_decrypt(out, ivc, expected[i], rks, AES128_ROUNDKEY_DIMENSION);
+		rsx_cbc_decrypt(&state, out, ivc, expected[i]);
 
 		if (are_equal8(out, message[i], 16) == false)
 		{
@@ -108,13 +110,15 @@ static bool aes128_cbc_monte_carlo(const uint8_t* key, const uint8_t* iv, const 
 
 static bool aes256_cbc_monte_carlo(const uint8_t* key, const uint8_t* iv, const uint8_t message[4][16], const uint8_t expected[4][16])
 {
-#if defined(RSX_AESNI_ENABLED)
-	__m128i rks[AES256_ROUNDKEY_DIMENSION];
-#else
-	uint32_t rks[AES256_ROUNDKEY_DIMENSION];
-#endif
-	uint8_t out[16];
+	rsx_keyparams kp = { key, 32 };
 	uint8_t ivc[16];
+	uint8_t out[16];
+#if defined(RSX_AESNI_ENABLED)
+	__m128i rkeys[AES256_ROUNDKEY_DIMENSION];
+#else
+	uint32_t rkeys[AES256_ROUNDKEY_DIMENSION];
+#endif
+	rsx_state state = { rkeys, AES256_ROUNDKEY_DIMENSION };
 	size_t i;
 	bool status;
 
@@ -122,14 +126,14 @@ static bool aes256_cbc_monte_carlo(const uint8_t* key, const uint8_t* iv, const 
 	status = true;
 
 	/* test encryption */
-	if (rsx_initialize(rks, key, true, AES256) != RSX_STATUS_SUCCESS)
+	if (rsx_initialize(&state, &kp, true) != MQC_STATUS_FAILURE)
 	{
 		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
 	{
-		rsx_cbc_encrypt(out, ivc, message[i], rks, AES256_ROUNDKEY_DIMENSION);
+		rsx_cbc_encrypt(&state, out, ivc, message[i]);
 
 		if (are_equal8(out, expected[i], 16) == false)
 		{
@@ -140,14 +144,14 @@ static bool aes256_cbc_monte_carlo(const uint8_t* key, const uint8_t* iv, const 
 	memcpy(&ivc[0], &iv[0], 16);
 
 	/* test decryption */
-	if (rsx_initialize(rks, key, false, AES256) != RSX_STATUS_SUCCESS)
+	if (rsx_initialize(&state, &kp, false) != MQC_STATUS_FAILURE)
 	{
 		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
 	{
-		rsx_cbc_decrypt(out, ivc, expected[i], rks, AES256_ROUNDKEY_DIMENSION);
+		rsx_cbc_decrypt(&state, out, ivc, expected[i]);
 
 		if (are_equal8(out, message[i], 16) == false)
 		{
@@ -160,13 +164,15 @@ static bool aes256_cbc_monte_carlo(const uint8_t* key, const uint8_t* iv, const 
 
 static bool aes128_ctr_monte_carlo(const uint8_t* key, const uint8_t* nonce, const uint8_t message[4][16], const uint8_t expected[4][16])
 {
-#if defined(RSX_AESNI_ENABLED)
-	__m128i rks[AES128_ROUNDKEY_DIMENSION];
-#else
-	uint32_t rks[AES128_ROUNDKEY_DIMENSION];
-#endif
-	uint8_t out[16];
+	rsx_keyparams kp = { key, 16 };
 	uint8_t ncc[16];
+	uint8_t out[16];
+#if defined(RSX_AESNI_ENABLED)
+	__m128i rkeys[AES128_ROUNDKEY_DIMENSION];
+#else
+	uint32_t rkeys[AES128_ROUNDKEY_DIMENSION];
+#endif
+	rsx_state state = { rkeys, AES128_ROUNDKEY_DIMENSION };
 	size_t i;
 	bool status;
 
@@ -174,14 +180,14 @@ static bool aes128_ctr_monte_carlo(const uint8_t* key, const uint8_t* nonce, con
 	status = true;
 
 	/* test encryption */
-	if (rsx_initialize(rks, key, true, AES128) != RSX_STATUS_SUCCESS)
+	if (rsx_initialize(&state, &kp, true) != MQC_STATUS_FAILURE)
 	{
 		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
 	{
-		rsx_ctr_transform(out, ncc, message[i], rks, AES128_ROUNDKEY_DIMENSION);
+		rsx_ctr_transform(&state, out, ncc, message[i]);
 
 		if (are_equal8(out, expected[i], 16) == false)
 		{
@@ -192,14 +198,14 @@ static bool aes128_ctr_monte_carlo(const uint8_t* key, const uint8_t* nonce, con
 	memcpy(&ncc[0], &nonce[0], 16);
 
 	/* test decryption */
-	if (rsx_initialize(rks, key, true, AES128) != RSX_STATUS_SUCCESS)
+	if (rsx_initialize(&state, &kp, true) != MQC_STATUS_FAILURE)
 	{
 		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
 	{
-		rsx_ctr_transform(out, ncc, expected[i], rks, AES128_ROUNDKEY_DIMENSION);
+		rsx_ctr_transform(&state, out, ncc, expected[i]);
 
 		if (are_equal8(out, message[i], 16) == false)
 		{
@@ -212,13 +218,15 @@ static bool aes128_ctr_monte_carlo(const uint8_t* key, const uint8_t* nonce, con
 
 static bool aes256_ctr_monte_carlo(const uint8_t* key, const uint8_t* nonce, const uint8_t message[4][16], const uint8_t expected[4][16])
 {
-#if defined(RSX_AESNI_ENABLED)
-	__m128i rks[AES256_ROUNDKEY_DIMENSION];
-#else
-	uint32_t rks[AES256_ROUNDKEY_DIMENSION];
-#endif
-	uint8_t out[16];
+	rsx_keyparams kp = { key, 32 };
 	uint8_t ncc[16];
+	uint8_t out[16];
+#if defined(RSX_AESNI_ENABLED)
+	__m128i rkeys[AES256_ROUNDKEY_DIMENSION];
+#else
+	uint32_t rkeys[AES256_ROUNDKEY_DIMENSION];
+#endif	
+	rsx_state state = { rkeys, AES256_ROUNDKEY_DIMENSION };
 	size_t i;
 	bool status;
 
@@ -226,14 +234,14 @@ static bool aes256_ctr_monte_carlo(const uint8_t* key, const uint8_t* nonce, con
 	status = true;
 
 	/* test encryption */
-	if (rsx_initialize(rks, key, true, AES256) != RSX_STATUS_SUCCESS)
+	if (rsx_initialize(&state, &kp, true) != MQC_STATUS_FAILURE)
 	{
 		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
 	{
-		rsx_ctr_transform(out, ncc, message[i], rks, AES256_ROUNDKEY_DIMENSION);
+		rsx_ctr_transform(&state, out, ncc, message[i]);
 
 		if (are_equal8(out, expected[i], 16) == false)
 		{
@@ -244,14 +252,14 @@ static bool aes256_ctr_monte_carlo(const uint8_t* key, const uint8_t* nonce, con
 	memcpy(&ncc[0], &nonce[0], 16);
 
 	/* test decryption */
-	if (rsx_initialize(rks, key, true, AES256) != RSX_STATUS_SUCCESS)
+	if (rsx_initialize(&state, &kp, true) != MQC_STATUS_FAILURE)
 	{
 		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
 	{
-		rsx_ctr_transform(out, ncc, expected[i], rks, AES256_ROUNDKEY_DIMENSION);
+		rsx_ctr_transform(&state, out, ncc, expected[i]);
 
 		if (are_equal8(out, message[i], 16) == false)
 		{
@@ -264,26 +272,28 @@ static bool aes256_ctr_monte_carlo(const uint8_t* key, const uint8_t* nonce, con
 
 static bool aes128_ecb_monte_carlo(const uint8_t* key, const uint8_t message[4][16], const uint8_t expected[4][16])
 {
-#if defined(RSX_AESNI_ENABLED)
-	__m128i rks[AES128_ROUNDKEY_DIMENSION];
-#else
-	uint32_t rks[AES128_ROUNDKEY_DIMENSION];
-#endif
 	uint8_t out[16];
+	rsx_keyparams kp = { key, 16 };
+#if defined(RSX_AESNI_ENABLED)
+	__m128i rkeys[AES128_ROUNDKEY_DIMENSION];
+#else
+	uint32_t rkeys[AES128_ROUNDKEY_DIMENSION];
+#endif
+	rsx_state state = { rkeys, AES128_ROUNDKEY_DIMENSION };
 	size_t i;
 	bool status;
 
 	status = true;
 
 	/* test encryption */
-	if (rsx_initialize(rks, key, true, AES128) != RSX_STATUS_SUCCESS)
+	if (rsx_initialize(&state, &kp, true) != MQC_STATUS_FAILURE)
 	{
 		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
 	{
-		rsx_ecb_encrypt(out, message[i], rks, AES128_ROUNDKEY_DIMENSION);
+		rsx_ecb_encrypt(&state, out, message[i]);
 
 		if (are_equal8(out, expected[i], 16) == false)
 		{
@@ -292,14 +302,14 @@ static bool aes128_ecb_monte_carlo(const uint8_t* key, const uint8_t message[4][
 	}
 
 	/* test decryption */
-	if (rsx_initialize(rks, key, false, AES128) != RSX_STATUS_SUCCESS)
+	if (rsx_initialize(&state, &kp, false) != MQC_STATUS_FAILURE)
 	{
 		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
 	{
-		rsx_ecb_decrypt(out, expected[i], rks, AES128_ROUNDKEY_DIMENSION);
+		rsx_ecb_decrypt(&state, out, expected[i]);
 
 		if (are_equal8(out, message[i], 16) == false)
 		{
@@ -312,26 +322,28 @@ static bool aes128_ecb_monte_carlo(const uint8_t* key, const uint8_t message[4][
 
 static bool aes256_ecb_monte_carlo(const uint8_t* key, const uint8_t message[4][16], const uint8_t expected[4][16])
 {
-#if defined(RSX_AESNI_ENABLED)
-	__m128i rks[AES256_ROUNDKEY_DIMENSION];
-#else
-	uint32_t rks[AES256_ROUNDKEY_DIMENSION];
-#endif
 	uint8_t out[16];
+	rsx_keyparams kp = { key, 32 };
+#if defined(RSX_AESNI_ENABLED)
+	__m128i rkeys[AES256_ROUNDKEY_DIMENSION];
+#else
+	uint32_t rkeys[AES256_ROUNDKEY_DIMENSION];
+#endif
+	rsx_state state = { rkeys, AES256_ROUNDKEY_DIMENSION };
 	size_t i;
 	bool status;
 
 	status = true;
 
 	/* test encryption */
-	if (rsx_initialize(rks, key, true, AES256) != RSX_STATUS_SUCCESS)
+	if (rsx_initialize(&state, &kp, true) != MQC_STATUS_FAILURE)
 	{
 		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
 	{
-		rsx_ecb_encrypt(out, message[i], rks, AES256_ROUNDKEY_DIMENSION);
+		rsx_ecb_encrypt(&state, out, message[i]);
 
 		if (are_equal8(out, expected[i], 16) == false)
 		{
@@ -340,14 +352,14 @@ static bool aes256_ecb_monte_carlo(const uint8_t* key, const uint8_t message[4][
 	}
 
 	/* test decryption */
-	if (rsx_initialize(rks, key, false, AES256) != RSX_STATUS_SUCCESS)
+	if (rsx_initialize(&state, &kp, false) != MQC_STATUS_FAILURE)
 	{
 		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
 	{
-		rsx_ecb_decrypt(out, expected[i], rks, AES256_ROUNDKEY_DIMENSION);
+		rsx_ecb_decrypt(&state, out, expected[i]);
 
 		if (are_equal8(out, message[i], 16) == false)
 		{
@@ -390,27 +402,28 @@ static void print_array32(const uint32_t* a, size_t count, size_t line)
 
 static bool rsx256_ecb_monte_carlo(const uint8_t* key, const uint8_t message[4][16], const uint8_t expected[4][16])
 {
-#if defined(RSX_AESNI_ENABLED)
-	__m128i rks[RSX256_ROUNDKEY_DIMENSION];
-#else
-	uint32_t rks[RSX256_ROUNDKEY_DIMENSION];
-#endif
 	uint8_t out[16];
+	rsx_keyparams kp = { key, 32 };
+#if defined(RSX_AESNI_ENABLED)
+	__m128i rkeys[RSX256_ROUNDKEY_DIMENSION];
+#else
+	uint32_t rkeys[RSX256_ROUNDKEY_DIMENSION];
+#endif
+	rsx_state state = { rkeys, RSX256_ROUNDKEY_DIMENSION };
 	size_t i;
 	bool status;
 
 	status = true;
 
 	/* test encryption */
-	if (rsx_initialize(rks, key, true, RSX256) != RSX_STATUS_SUCCESS)
+	if (rsx_initialize(&state, &kp, true) != MQC_STATUS_FAILURE)
 	{
 		status = false;
 	}
-	//for (size_t i = 0; i < RSX256_ROUNDKEY_DIMENSION; i++)
-	//	print_array32(rks[i].m128i_u32, 4, 4);
+
 	for (i = 0; i < 4; i++)
 	{
-		rsx_ecb_encrypt(out, message[i], rks, RSX256_ROUNDKEY_DIMENSION);
+		rsx_ecb_encrypt(&state, out, message[i]);
 
 		if (are_equal8(out, expected[i], 16) == false)
 		{
@@ -419,14 +432,14 @@ static bool rsx256_ecb_monte_carlo(const uint8_t* key, const uint8_t message[4][
 	}
 
 	/* test decryption */
-	if (rsx_initialize(rks, key, false, RSX256) != RSX_STATUS_SUCCESS)
+	if (rsx_initialize(&state, &kp, false) != MQC_STATUS_FAILURE)
 	{
 		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
 	{
-		rsx_ecb_decrypt(out, expected[i], rks, RSX256_ROUNDKEY_DIMENSION);
+		rsx_ecb_decrypt(&state, out, expected[i]);
 
 		if (are_equal8(out, message[i], 16) == false)
 		{
@@ -439,26 +452,28 @@ static bool rsx256_ecb_monte_carlo(const uint8_t* key, const uint8_t message[4][
 
 static bool rsx512_ecb_monte_carlo(const uint8_t* key, const uint8_t message[4][16], const uint8_t expected[4][16])
 {
-#if defined(RSX_AESNI_ENABLED)
-	__m128i rks[RSX512_ROUNDKEY_DIMENSION];
-#else
-	uint32_t rks[RSX512_ROUNDKEY_DIMENSION];
-#endif
 	uint8_t out[16];
+	rsx_keyparams kp = { key, 64 };
+#if defined(RSX_AESNI_ENABLED)
+	__m128i rkeys[RSX512_ROUNDKEY_DIMENSION];
+#else
+	uint32_t rkeys[RSX512_ROUNDKEY_DIMENSION];
+#endif
+	rsx_state state = { rkeys, RSX512_ROUNDKEY_DIMENSION };
 	size_t i;
 	bool status;
 
 	status = true;
 
 	/* test encryption */
-	if (rsx_initialize(rks, key, true, RSX512) != RSX_STATUS_SUCCESS)
+	if (rsx_initialize(&state, &kp, true) != MQC_STATUS_FAILURE)
 	{
 		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
 	{
-		rsx_ecb_encrypt(out, message[i], rks, RSX512_ROUNDKEY_DIMENSION);
+		rsx_ecb_encrypt(&state, out, message[i]);
 
 		if (are_equal8(out, expected[i], 16) == false)
 		{
@@ -467,14 +482,14 @@ static bool rsx512_ecb_monte_carlo(const uint8_t* key, const uint8_t message[4][
 	}
 
 	/* test decryption */
-	if (rsx_initialize(rks, key, false, RSX512) != RSX_STATUS_SUCCESS)
+	if (rsx_initialize(&state, &kp, false) != MQC_STATUS_FAILURE)
 	{
 		status = false;
 	}
 
 	for (i = 0; i < 4; i++)
 	{
-		rsx_ecb_decrypt(out, expected[i], rks, RSX512_ROUNDKEY_DIMENSION);
+		rsx_ecb_decrypt(&state, out, expected[i]);
 
 		if (are_equal8(out, message[i], 16) == false)
 		{

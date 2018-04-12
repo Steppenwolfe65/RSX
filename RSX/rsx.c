@@ -1,42 +1,61 @@
 #include "rsx.h"
 #include <string.h>
 
-#ifdef RSX_AESNI_ENABLED
+/* Common */
 
-static void decrypt_block(uint8_t* output, const uint8_t* input, const __m128i* roundkeys, size_t rlen)
+static void increment_be8(uint8_t* output)
 {
-	const size_t RNDCNT = rlen - 2;
-	size_t keyctr = 0;
-
-	__m128i x = _mm_loadu_si128((const __m128i*)input);
-	x = _mm_xor_si128(x, roundkeys[keyctr]);
-
-	while (keyctr != RNDCNT)
+	int i = 16;
+	while (--i >= 0 && ++output[i] == 0)
 	{
-		++keyctr;
-		x = _mm_aesdec_si128(x, roundkeys[keyctr]);
 	}
-
-	++keyctr;
-	_mm_storeu_si128((__m128i*)output, _mm_aesdeclast_si128(x, roundkeys[keyctr]));
 }
 
-static void encrypt_block(uint8_t* output, const uint8_t* input, const __m128i* roundkeys, size_t rlen)
+static uint32_t load_be32(const uint8_t* a, size_t offset)
 {
-	const size_t RNDCNT = rlen - 2;
+	return
+		((uint8_t)(a[offset]) << 24) |
+		((uint8_t)(a[offset + 1]) << 16) |
+		((uint8_t)(a[offset + 2]) << 8) |
+		((uint8_t)(a[offset + 3]));
+}
+
+#if defined(RSX_AESNI_ENABLED)
+
+static void decrypt_block(rsx_state* state, uint8_t* output, const uint8_t* input)
+{
+	const size_t RNDCNT = state->rkeylen - 2;
 	size_t keyctr = 0;
 
 	__m128i x = _mm_loadu_si128((const __m128i*)input);
-	x = _mm_xor_si128(x, roundkeys[keyctr]);
+	x = _mm_xor_si128(x, state->roundkeys[keyctr]);
 
 	while (keyctr != RNDCNT)
 	{
 		++keyctr;
-		x = _mm_aesenc_si128(x, roundkeys[keyctr]);
+		x = _mm_aesdec_si128(x, state->roundkeys[keyctr]);
 	}
 
 	++keyctr;
-	_mm_storeu_si128((__m128i*)output, _mm_aesenclast_si128(x, roundkeys[keyctr]));
+	_mm_storeu_si128((__m128i*)output, _mm_aesdeclast_si128(x, state->roundkeys[keyctr]));
+}
+
+static void encrypt_block(rsx_state* state, uint8_t* output, const uint8_t* input)
+{
+	const size_t RNDCNT = state->rkeylen - 2;
+	size_t keyctr = 0;
+
+	__m128i x = _mm_loadu_si128((const __m128i*)input);
+	x = _mm_xor_si128(x, state->roundkeys[keyctr]);
+
+	while (keyctr != RNDCNT)
+	{
+		++keyctr;
+		x = _mm_aesenc_si128(x, state->roundkeys[keyctr]);
+	}
+
+	++keyctr;
+	_mm_storeu_si128((__m128i*)output, _mm_aesenclast_si128(x, state->roundkeys[keyctr]));
 }
 
 static void expand_rot(__m128i* Key, size_t Index, size_t Offset)
@@ -60,23 +79,6 @@ static void expand_sub(__m128i* Key, size_t Index, size_t Offset)
 	Key[Index] = _mm_xor_si128(pkb, Key[Index]);
 }
 
-static void increment_be8(uint8_t* output)
-{
-	int i = 16;
-	while (--i >= 0 && ++output[i] == 0)
-	{
-	}
-}
-
-static uint32_t load_be32(const uint8_t* a, size_t offset)
-{
-	return
-		((uint8_t)(a[offset]) << 24) |
-		((uint8_t)(a[offset + 1]) << 16) |
-		((uint8_t)(a[offset + 2]) << 8) |
-		((uint8_t)(a[offset + 3]));
-}
-
 static void le32_to_bytes(const uint32_t value, uint8_t* output, size_t offset)
 {
 	output[offset] = (uint8_t)value;
@@ -85,126 +87,111 @@ static void le32_to_bytes(const uint32_t value, uint8_t* output, size_t offset)
 	output[offset + 3] = (uint8_t)(value >> 24);
 }
 
-static size_t secure_expand(__m128i* output, size_t outlen, const uint8_t* input, size_t inplen)
+static void secure_expand(rsx_state* state, rsx_keyparams* keyparams)
 {
 	uint32_t tmpk;
 	size_t i;
 	size_t j;
 
-	switch (outlen)
+	if (state->rkeylen == RSX256_ROUNDKEY_DIMENSION)
 	{
-		case RSX256_ROUNDKEY_DIMENSION:
+		uint8_t rk[(RSX256_ROUNDKEY_DIMENSION * ROUNDKEY_ELEMENT_SIZE)];
+		cshake256(rk, (RSX256_ROUNDKEY_DIMENSION * ROUNDKEY_ELEMENT_SIZE), keyparams->key, keyparams->keylen, NULL, 0, keyparams->distcode, keyparams->codelen);
+
+		/* swap to le (required for kats) */
+		for (size_t i = 0; i < (RSX256_ROUNDKEY_DIMENSION * ROUNDKEY_ELEMENT_SIZE); i += 4)
 		{
-			uint8_t rk[(RSX256_ROUNDKEY_DIMENSION * ROUNDKEY_ELEMENT_SIZE)];
-			shake256(rk, (RSX256_ROUNDKEY_DIMENSION * ROUNDKEY_ELEMENT_SIZE), input, inplen);
-
-			/* swap to le (required for kats) */
-			for (size_t i = 0; i < (RSX256_ROUNDKEY_DIMENSION * ROUNDKEY_ELEMENT_SIZE); i += 4)
-			{
-				tmpk = load_be32(rk, i);
-				le32_to_bytes(tmpk, rk, i);
-			}
-
-			/* load the round-key array */
-			for (size_t i = 0, j = 0; i < RSX256_ROUNDKEY_DIMENSION; i++, j += 16)
-			{
-				output[i] = _mm_loadu_si128((__m128i*)(rk + (i * 16)));
-			}
-
-			break;
+			tmpk = load_be32(rk, i);
+			le32_to_bytes(tmpk, rk, i);
 		}
-		case RSX512_ROUNDKEY_DIMENSION:
+
+		/* load the round-key array */
+		for (size_t i = 0, j = 0; i < RSX256_ROUNDKEY_DIMENSION; i++, j += 16)
 		{
-			uint8_t rk[(RSX512_ROUNDKEY_DIMENSION * ROUNDKEY_ELEMENT_SIZE)];
-			shake256(rk, (RSX512_ROUNDKEY_DIMENSION * ROUNDKEY_ELEMENT_SIZE), input, inplen);
-
-			for (size_t i = 0; i < (RSX512_ROUNDKEY_DIMENSION * ROUNDKEY_ELEMENT_SIZE); i += 4)
-			{
-				tmpk = load_be32(rk, i);
-				le32_to_bytes(tmpk, rk, i);
-			}
-
-			for (size_t i = 0, j = 0; i < RSX512_ROUNDKEY_DIMENSION; i++, j += 16)
-			{
-				output[i] = _mm_loadu_si128((__m128i*)(rk + (i * 16)));
-			}
-
-			break;
+			state->roundkeys[i] = _mm_loadu_si128((__m128i*)(rk + (i * 16)));
 		}
-		default:
-		{
-			outlen = 0;
-		}
-	}
-
-	return outlen;
-}
-
-static size_t standard_expand(__m128i* output, size_t outlen, const uint8_t* input, size_t inplen)
-{
-	// key in 32 bit words
-	size_t kwords = inplen / 4;
-
-	if (kwords == 8)
-	{
-		output[0] = _mm_loadu_si128((__m128i*)input);
-		output[1] = _mm_loadu_si128((__m128i*)(input + 16));
-		output[2] = _mm_aeskeygenassist_si128(output[1], 0x01);
-		expand_rot(output, 2, 2);
-		expand_sub(output, 3, 2);
-		output[4] = _mm_aeskeygenassist_si128(output[3], 0x02);
-		expand_rot(output, 4, 2);
-		expand_sub(output, 5, 2);
-		output[6] = _mm_aeskeygenassist_si128(output[5], 0x04);
-		expand_rot(output, 6, 2);
-		expand_sub(output, 7, 2);
-		output[8] = _mm_aeskeygenassist_si128(output[7], 0x08);
-		expand_rot(output, 8, 2);
-		expand_sub(output, 9, 2);
-		output[10] = _mm_aeskeygenassist_si128(output[9], 0x10);
-		expand_rot(output, 10, 2);
-		expand_sub(output, 11, 2);
-		output[12] = _mm_aeskeygenassist_si128(output[11], 0x20);
-		expand_rot(output, 12, 2);
-		expand_sub(output, 13, 2);
-		output[14] = _mm_aeskeygenassist_si128(output[13], 0x40);
-		expand_rot(output, 14, 2);
 	}
 	else
 	{
-		output[0] = _mm_loadu_si128((__m128i*)input);
-		output[1] = _mm_aeskeygenassist_si128(output[0], 0x01);
-		expand_rot(output, 1, 1);
-		output[2] = _mm_aeskeygenassist_si128(output[1], 0x02);
-		expand_rot(output, 2, 1);
-		output[3] = _mm_aeskeygenassist_si128(output[2], 0x04);
-		expand_rot(output, 3, 1);
-		output[4] = _mm_aeskeygenassist_si128(output[3], 0x08);
-		expand_rot(output, 4, 1);
-		output[5] = _mm_aeskeygenassist_si128(output[4], 0x10);
-		expand_rot(output, 5, 1);
-		output[6] = _mm_aeskeygenassist_si128(output[5], 0x20);
-		expand_rot(output, 6, 1);
-		output[7] = _mm_aeskeygenassist_si128(output[6], 0x40);
-		expand_rot(output, 7, 1);
-		output[8] = _mm_aeskeygenassist_si128(output[7], 0x80);
-		expand_rot(output, 8, 1);
-		output[9] = _mm_aeskeygenassist_si128(output[8], 0x1B);
-		expand_rot(output, 9, 1);
-		output[10] = _mm_aeskeygenassist_si128(output[9], 0x36);
-		expand_rot(output, 10, 1);
-	}
+		uint8_t rk[(RSX512_ROUNDKEY_DIMENSION * ROUNDKEY_ELEMENT_SIZE)];
+		cshake256(rk, (RSX512_ROUNDKEY_DIMENSION * ROUNDKEY_ELEMENT_SIZE), keyparams->key, keyparams->keylen, NULL, 0, keyparams->distcode, keyparams->codelen);
 
-	return outlen;
+		for (size_t i = 0; i < (RSX512_ROUNDKEY_DIMENSION * ROUNDKEY_ELEMENT_SIZE); i += 4)
+		{
+			tmpk = load_be32(rk, i);
+			le32_to_bytes(tmpk, rk, i);
+		}
+
+		for (size_t i = 0, j = 0; i < RSX512_ROUNDKEY_DIMENSION; i++, j += 16)
+		{
+			state->roundkeys[i] = _mm_loadu_si128((__m128i*)(rk + (i * 16)));
+		}
+	}
 }
 
-void rsx_cbc_decrypt(uint8_t* output, uint8_t* iv, const uint8_t* input, const __m128i* roundkeys, size_t rlen)
+static void standard_expand(rsx_state* state, rsx_keyparams* keyparams)
+{
+	// key in 32 bit words
+	size_t kwords = keyparams->keylen / 4;
+
+	if (kwords == 8)
+	{
+		state->roundkeys[0] = _mm_loadu_si128((__m128i*)keyparams->key);
+		state->roundkeys[1] = _mm_loadu_si128((__m128i*)(keyparams->key + 16));
+		state->roundkeys[2] = _mm_aeskeygenassist_si128(state->roundkeys[1], 0x01);
+		expand_rot(state->roundkeys, 2, 2);
+		expand_sub(state->roundkeys, 3, 2);
+		state->roundkeys[4] = _mm_aeskeygenassist_si128(state->roundkeys[3], 0x02);
+		expand_rot(state->roundkeys, 4, 2);
+		expand_sub(state->roundkeys, 5, 2);
+		state->roundkeys[6] = _mm_aeskeygenassist_si128(state->roundkeys[5], 0x04);
+		expand_rot(state->roundkeys, 6, 2);
+		expand_sub(state->roundkeys, 7, 2);
+		state->roundkeys[8] = _mm_aeskeygenassist_si128(state->roundkeys[7], 0x08);
+		expand_rot(state->roundkeys, 8, 2);
+		expand_sub(state->roundkeys, 9, 2);
+		state->roundkeys[10] = _mm_aeskeygenassist_si128(state->roundkeys[9], 0x10);
+		expand_rot(state->roundkeys, 10, 2);
+		expand_sub(state->roundkeys, 11, 2);
+		state->roundkeys[12] = _mm_aeskeygenassist_si128(state->roundkeys[11], 0x20);
+		expand_rot(state->roundkeys, 12, 2);
+		expand_sub(state->roundkeys, 13, 2);
+		state->roundkeys[14] = _mm_aeskeygenassist_si128(state->roundkeys[13], 0x40);
+		expand_rot(state->roundkeys, 14, 2);
+	}
+	else
+	{
+		state->roundkeys[0] = _mm_loadu_si128((__m128i*)keyparams->key);
+		state->roundkeys[1] = _mm_aeskeygenassist_si128(state->roundkeys[0], 0x01);
+		expand_rot(state->roundkeys, 1, 1);
+		state->roundkeys[2] = _mm_aeskeygenassist_si128(state->roundkeys[1], 0x02);
+		expand_rot(state->roundkeys, 2, 1);
+		state->roundkeys[3] = _mm_aeskeygenassist_si128(state->roundkeys[2], 0x04);
+		expand_rot(state->roundkeys, 3, 1);
+		state->roundkeys[4] = _mm_aeskeygenassist_si128(state->roundkeys[3], 0x08);
+		expand_rot(state->roundkeys, 4, 1);
+		state->roundkeys[5] = _mm_aeskeygenassist_si128(state->roundkeys[4], 0x10);
+		expand_rot(state->roundkeys, 5, 1);
+		state->roundkeys[6] = _mm_aeskeygenassist_si128(state->roundkeys[5], 0x20);
+		expand_rot(state->roundkeys, 6, 1);
+		state->roundkeys[7] = _mm_aeskeygenassist_si128(state->roundkeys[6], 0x40);
+		expand_rot(state->roundkeys, 7, 1);
+		state->roundkeys[8] = _mm_aeskeygenassist_si128(state->roundkeys[7], 0x80);
+		expand_rot(state->roundkeys, 8, 1);
+		state->roundkeys[9] = _mm_aeskeygenassist_si128(state->roundkeys[8], 0x1B);
+		expand_rot(state->roundkeys, 9, 1);
+		state->roundkeys[10] = _mm_aeskeygenassist_si128(state->roundkeys[9], 0x36);
+		expand_rot(state->roundkeys, 10, 1);
+	}
+}
+
+void rsx_cbc_decrypt(rsx_state* state, uint8_t* output, uint8_t* iv, const uint8_t* input)
 {
 	size_t i;
 	uint8_t tmpv[RSX_BLOCK_SIZE];
 
 	memcpy(&tmpv[0], &input[0], RSX_BLOCK_SIZE);
-	decrypt_block(output, input, roundkeys, rlen);
+	decrypt_block(state, output, input);
 
 	for (i = 0; i < RSX_BLOCK_SIZE; i++)
 	{
@@ -215,7 +202,7 @@ void rsx_cbc_decrypt(uint8_t* output, uint8_t* iv, const uint8_t* input, const _
 	memcpy(&iv[0], &tmpv[0], RSX_BLOCK_SIZE);
 }
 
-void rsx_cbc_encrypt(uint8_t* output, uint8_t* iv, const uint8_t* input, const __m128i* roundkeys, size_t rlen)
+void rsx_cbc_encrypt(rsx_state* state, uint8_t* output, uint8_t* iv, const uint8_t* input)
 {
 	size_t i;
 
@@ -224,15 +211,15 @@ void rsx_cbc_encrypt(uint8_t* output, uint8_t* iv, const uint8_t* input, const _
 		iv[i] ^= input[i];
 	}
 
-	encrypt_block(output, iv, roundkeys, rlen);
+	encrypt_block(state, output, iv);
 	memcpy(&iv[0], &output[0], RSX_BLOCK_SIZE);
 }
 
-void rsx_ctr_transform(uint8_t* output, uint8_t* nonce, const uint8_t* input, const __m128i* roundkeys, size_t rlen)
+void rsx_ctr_transform(rsx_state* state, uint8_t* output, uint8_t* nonce, const uint8_t* input)
 {
 	size_t i;
 
-	encrypt_block(output, nonce, roundkeys, rlen);
+	encrypt_block(state, output, nonce);
 
 	for (i = 0; i < RSX_BLOCK_SIZE; i++)
 	{
@@ -242,71 +229,63 @@ void rsx_ctr_transform(uint8_t* output, uint8_t* nonce, const uint8_t* input, co
 	increment_be8(nonce);
 }
 
-void rsx_ecb_decrypt(uint8_t* output, const uint8_t* input, const __m128i* roundkeys, size_t rlen)
+void rsx_ecb_decrypt(rsx_state* state, uint8_t* output, const uint8_t* input)
 {
-	decrypt_block(output, input, roundkeys, rlen);
+	decrypt_block(state, output, input);
 }
 
-void rsx_ecb_encrypt(uint8_t* output, const uint8_t* input, const __m128i* roundkeys, size_t rlen)
+void rsx_ecb_encrypt(rsx_state* state, uint8_t* output, const uint8_t* input)
 {
-	encrypt_block(output, input, roundkeys, rlen);
+	encrypt_block(state, output, input);
 }
 
-rsx_status rsx_initialize(__m128i* roundkeys, const uint8_t* inputkey, bool encryption, cipher_type cipher)
+mqc_status rsx_initialize(rsx_state* state, rsx_keyparams* keyparams, bool encryption)
 {
-	size_t rlen;
-	rsx_status status;
+	mqc_status status;
 
-	status = RSX_STATUS_SUCCESS;
+	status = MQC_STATUS_FAILURE;
 
-	switch (cipher)
+	if (state->rkeylen == RSX256_ROUNDKEY_DIMENSION)
 	{
-	case AES128:
-	{
-		rlen = standard_expand(roundkeys, AES128_ROUNDKEY_DIMENSION, inputkey, AES128_KEY_SIZE);
-		break;
+		secure_expand(state, keyparams);
 	}
-	case AES256:
+	else if (state->rkeylen == RSX512_ROUNDKEY_DIMENSION)
 	{
-		rlen = standard_expand(roundkeys, AES256_ROUNDKEY_DIMENSION, inputkey, AES256_KEY_SIZE);
-		break;
+		secure_expand(state, keyparams);
 	}
-	case RSX256:
+	else if (state->rkeylen == AES256_ROUNDKEY_DIMENSION)
 	{
-		rlen = secure_expand(roundkeys, RSX256_ROUNDKEY_DIMENSION, inputkey, RSX256_KEY_SIZE);
-		break;
+		standard_expand(state, keyparams);
 	}
-	case RSX512:
+	else if (state->rkeylen == AES128_ROUNDKEY_DIMENSION)
 	{
-		rlen = secure_expand(roundkeys, RSX512_ROUNDKEY_DIMENSION, inputkey, RSX512_KEY_SIZE);
-		break;
+		standard_expand(state, keyparams);
 	}
-	default:
+	else
 	{
-		rlen = 0;
-		status = RSX_ERROR_INVALID;
-	}
+		state->rkeylen = 0;
+		status = MQC_ERROR_INVALID;
 	}
 
 	// inverse cipher
-	if (encryption == false && rlen != 0)
+	if (encryption == false && state->rkeylen != 0)
 	{
 		size_t i;
 		size_t j;
 		__m128i tmp;
 
-		tmp = roundkeys[0];
-		roundkeys[0] = roundkeys[rlen - 1];
-		roundkeys[rlen - 1] = tmp;
+		tmp = state->roundkeys[0];
+		state->roundkeys[0] = state->roundkeys[state->rkeylen - 1];
+		state->roundkeys[state->rkeylen - 1] = tmp;
 
-		for (i = 1, j = rlen - 2; i < j; ++i, --j)
+		for (i = 1, j = state->rkeylen - 2; i < j; ++i, --j)
 		{
-			tmp = _mm_aesimc_si128(roundkeys[i]);
-			roundkeys[i] = _mm_aesimc_si128(roundkeys[j]);
-			roundkeys[j] = tmp;
+			tmp = _mm_aesimc_si128(state->roundkeys[i]);
+			state->roundkeys[i] = _mm_aesimc_si128(state->roundkeys[j]);
+			state->roundkeys[j] = tmp;
 		}
 
-		roundkeys[i] = _mm_aesimc_si128(roundkeys[i]);
+		state->roundkeys[i] = _mm_aesimc_si128(state->roundkeys[i]);
 	}
 
 	return status;
@@ -654,15 +633,6 @@ static const uint32_t it_3[256] =
 
 /* Internal */
 
-static uint32_t load_be32(const uint8_t* a, size_t offset)
-{
-	return
-		((uint8_t)(a[offset]) << 24) |
-		((uint8_t)(a[offset + 1]) << 16) |
-		((uint8_t)(a[offset + 2]) << 8) |
-		((uint8_t)(a[offset + 3]));
-}
-
 static uint32_t sub_byte(uint32_t rot)
 {
 	uint32_t value = rot & 0xFF;
@@ -813,14 +783,6 @@ static void expand_sub(uint32_t* key, size_t keyindex, size_t keyoffset)
 	key[keyindex] = key[subkey] ^ key[keyindex - 1];
 }
 
-static void increment_be8(uint8_t* output)
-{
-	int i = 16;
-	while (--i >= 0 && ++output[i] == 0)
-	{
-	}
-}
-
 #if defined(RSX_PREFETCH_TABLES)
 static void prefetch_tables(bool encryption)
 {
@@ -878,76 +840,72 @@ static void prefetch_tables(bool encryption)
 }
 #endif
 
-static size_t secure_expand(uint32_t* output, size_t outlen, const uint8_t* input, size_t inplen)
+static void secure_expand(rsx_state* state, rsx_keyparams* keyparams)
 {
-	shake256((uint8_t*)output, outlen * sizeof(uint32_t), input, inplen);
-
-	return outlen;
+	cshake256((uint8_t*)state->roundkeys, state->rkeylen * sizeof(uint32_t), keyparams->key, keyparams->keylen, NULL, 0, keyparams->distcode, keyparams->codelen);
 }
 
-static size_t standard_expand(uint32_t* output, const uint8_t* input, size_t inplen)
+static void standard_expand(rsx_state* state, rsx_keyparams* keyparams)
 {
 	// key in 32 bit words
-	size_t kwords = inplen / 4;
+	size_t kwords = keyparams->keylen / 4;
 
 	if (kwords == 8)
 	{
-		output[0] = load_be32(input, 0);
-		output[1] = load_be32(input, 4);
-		output[2] = load_be32(input, 8);
-		output[3] = load_be32(input, 12);
-		output[4] = load_be32(input, 16);
-		output[5] = load_be32(input, 20);
-		output[6] = load_be32(input, 24);
-		output[7] = load_be32(input, 28);
+		state->roundkeys[0] = load_be32(keyparams->key, 0);
+		state->roundkeys[1] = load_be32(keyparams->key, 4);
+		state->roundkeys[2] = load_be32(keyparams->key, 8);
+		state->roundkeys[3] = load_be32(keyparams->key, 12);
+		state->roundkeys[4] = load_be32(keyparams->key, 16);
+		state->roundkeys[5] = load_be32(keyparams->key, 20);
+		state->roundkeys[6] = load_be32(keyparams->key, 24);
+		state->roundkeys[7] = load_be32(keyparams->key, 28);
 
 		// k256 R: 8,16,24,32,40,48,56 S: 12,20,28,36,44,52
-		expand_rot(output, 8, 8, 1);
-		expand_sub(output, 12, 8);
-		expand_rot(output, 16, 8, 2);
-		expand_sub(output, 20, 8);
-		expand_rot(output, 24, 8, 3);
-		expand_sub(output, 28, 8);
-		expand_rot(output, 32, 8, 4);
-		expand_sub(output, 36, 8);
-		expand_rot(output, 40, 8, 5);
-		expand_sub(output, 44, 8);
-		expand_rot(output, 48, 8, 6);
-		expand_sub(output, 52, 8);
-		expand_rot(output, 56, 8, 7);
+		expand_rot(state->roundkeys, 8, 8, 1);
+		expand_sub(state->roundkeys, 12, 8);
+		expand_rot(state->roundkeys, 16, 8, 2);
+		expand_sub(state->roundkeys, 20, 8);
+		expand_rot(state->roundkeys, 24, 8, 3);
+		expand_sub(state->roundkeys, 28, 8);
+		expand_rot(state->roundkeys, 32, 8, 4);
+		expand_sub(state->roundkeys, 36, 8);
+		expand_rot(state->roundkeys, 40, 8, 5);
+		expand_sub(state->roundkeys, 44, 8);
+		expand_rot(state->roundkeys, 48, 8, 6);
+		expand_sub(state->roundkeys, 52, 8);
+		expand_rot(state->roundkeys, 56, 8, 7);
 	}
 	else
 	{
-		output[0] = load_be32(input, 0);
-		output[1] = load_be32(input, 4);
-		output[2] = load_be32(input, 8);
-		output[3] = load_be32(input, 12);
+		state->roundkeys[0] = load_be32(keyparams->key, 0);
+		state->roundkeys[1] = load_be32(keyparams->key, 4);
+		state->roundkeys[2] = load_be32(keyparams->key, 8);
+		state->roundkeys[3] = load_be32(keyparams->key, 12);
 
 		// k128 R: 4,8,12,16,20,24,28,32,36,40
-		expand_rot(output, 4, 4, 1);
-		expand_rot(output, 8, 4, 2);
-		expand_rot(output, 12, 4, 3);
-		expand_rot(output, 16, 4, 4);
-		expand_rot(output, 20, 4, 5);
-		expand_rot(output, 24, 4, 6);
-		expand_rot(output, 28, 4, 7);
-		expand_rot(output, 32, 4, 8);
-		expand_rot(output, 36, 4, 9);
-		expand_rot(output, 40, 4, 10);
+		expand_rot(state->roundkeys, 4, 4, 1);
+		expand_rot(state->roundkeys, 8, 4, 2);
+		expand_rot(state->roundkeys, 12, 4, 3);
+		expand_rot(state->roundkeys, 16, 4, 4);
+		expand_rot(state->roundkeys, 20, 4, 5);
+		expand_rot(state->roundkeys, 24, 4, 6);
+		expand_rot(state->roundkeys, 28, 4, 7);
+		expand_rot(state->roundkeys, 32, 4, 8);
+		expand_rot(state->roundkeys, 36, 4, 9);
+		expand_rot(state->roundkeys, 40, 4, 10);
 	}
-
-	return kwords == 8 ? 60 : 44;
 }
 
 /* Public API */
 
-void rsx_cbc_decrypt(uint8_t* output, uint8_t* iv, const uint8_t* input, const uint32_t* roundkeys, size_t rlen)
+void rsx_cbc_decrypt(rsx_state* state, uint8_t* output, uint8_t* iv, const uint8_t* input)
 {
 	size_t i;
 	uint8_t tmpv[RSX_BLOCK_SIZE];
 
 	memcpy(&tmpv[0], &input[0], RSX_BLOCK_SIZE);
-	decrypt_block(output, input, roundkeys, rlen);
+	decrypt_block(output, input, state->roundkeys, state->rkeylen);
 
 	for (i = 0; i < RSX_BLOCK_SIZE; i++)
 	{
@@ -958,7 +916,7 @@ void rsx_cbc_decrypt(uint8_t* output, uint8_t* iv, const uint8_t* input, const u
 	memcpy(&iv[0], &tmpv[0], RSX_BLOCK_SIZE);
 }
 
-void rsx_cbc_encrypt(uint8_t* output, uint8_t* iv, const uint8_t* input, const uint32_t* roundkeys, size_t rlen)
+void rsx_cbc_encrypt(rsx_state* state, uint8_t* output, uint8_t* iv, const uint8_t* input)
 {
 	size_t i;
 
@@ -967,15 +925,15 @@ void rsx_cbc_encrypt(uint8_t* output, uint8_t* iv, const uint8_t* input, const u
 		iv[i] ^= input[i];
 	}
 
-	encrypt_block(output, iv, roundkeys, rlen);
+	encrypt_block(output, iv, state->roundkeys, state->rkeylen);
 	memcpy(&iv[0], &output[0], RSX_BLOCK_SIZE);
 }
 
-void rsx_ctr_transform(uint8_t* output, uint8_t* nonce, const uint8_t* input, const uint32_t* roundkeys, size_t rlen)
+void rsx_ctr_transform(rsx_state* state, uint8_t* output, uint8_t* nonce, const uint8_t* input)
 {
 	size_t i;
 
-	encrypt_block(output, nonce, roundkeys, rlen);
+	encrypt_block(output, nonce, state->roundkeys, state->rkeylen);
 
 	for (i = 0; i < RSX_BLOCK_SIZE; i++)
 	{
@@ -985,54 +943,46 @@ void rsx_ctr_transform(uint8_t* output, uint8_t* nonce, const uint8_t* input, co
 	increment_be8(nonce);
 }
 
-void rsx_ecb_decrypt(uint8_t* output, const uint8_t* input, const uint32_t* roundkeys, size_t rlen)
+void rsx_ecb_decrypt(rsx_state* state, uint8_t* output, const uint8_t* input)
 {
-	decrypt_block(output, input, roundkeys, rlen);
+	decrypt_block(output, input, state->roundkeys, state->rkeylen);
 }
 
-void rsx_ecb_encrypt(uint8_t* output, const uint8_t* input, const uint32_t* roundkeys, size_t rlen)
+void rsx_ecb_encrypt(rsx_state* state, uint8_t* output, const uint8_t* input)
 {
-	encrypt_block(output, input, roundkeys, rlen);
+	encrypt_block(output, input, state->roundkeys, state->rkeylen);
 }
 
-rsx_status rsx_initialize(uint32_t* roundkeys, const uint8_t* inputkey, bool encryption, cipher_type cipher)
+mqc_status rsx_initialize(rsx_state* state, rsx_keyparams* keyparams, bool encryption)
 {
-	size_t rlen;
-	rsx_status status;
+	mqc_status status;
+	
+	status = MQC_STATUS_FAILURE;
 
-	status = RSX_STATUS_SUCCESS;
-
-	switch (cipher)
+	if (state->rkeylen == RSX256_ROUNDKEY_DIMENSION)
 	{
-	case AES128:
-	{
-		rlen = standard_expand(roundkeys, inputkey, AES128_KEY_SIZE);
-		break;
+		secure_expand(state, keyparams);
 	}
-	case AES256:
+	else if (state->rkeylen == RSX512_ROUNDKEY_DIMENSION)
 	{
-		rlen = standard_expand(roundkeys, inputkey, AES256_KEY_SIZE);
-		break;
+		secure_expand(state, keyparams);
 	}
-	case RSX256:
+	else if (state->rkeylen == AES256_ROUNDKEY_DIMENSION)
 	{
-		rlen = secure_expand(roundkeys, RSX256_ROUNDKEY_DIMENSION, inputkey, RSX256_KEY_SIZE);
-		break;
+		standard_expand(state, keyparams);
 	}
-	case RSX512:
+	else if (state->rkeylen == AES128_ROUNDKEY_DIMENSION)
 	{
-		rlen = secure_expand(roundkeys, RSX512_ROUNDKEY_DIMENSION, inputkey, RSX512_KEY_SIZE);
-		break;
+		standard_expand(state, keyparams);
 	}
-	default:
+	else
 	{
-		rlen = 0;
-		status = RSX_ERROR_INVALID;
-	}
+		state->rkeylen = 0;
+		status = MQC_ERROR_INVALID;
 	}
 
 	// inverse cipher
-	if (encryption == false && rlen != 0)
+	if (encryption == false && state->rkeylen != 0)
 	{
 		uint32_t tmpk;
 		size_t i;
@@ -1040,23 +990,23 @@ rsx_status rsx_initialize(uint32_t* roundkeys, const uint8_t* inputkey, bool enc
 		size_t k;
 
 		// reverse key
-		for (i = 0, k = rlen - 4; i < k; i += 4, k -= 4)
+		for (i = 0, k = state->rkeylen - 4; i < k; i += 4, k -= 4)
 		{
 			for (j = 0; j < 4; j++)
 			{
-				tmpk = roundkeys[i + j];
-				roundkeys[i + j] = roundkeys[k + j];
-				roundkeys[k + j] = tmpk;
+				tmpk = state->roundkeys[i + j];
+				state->roundkeys[i + j] = state->roundkeys[k + j];
+				state->roundkeys[k + j] = tmpk;
 			}
 		}
 
 		// sbox inversion
-		for (i = 4; i < rlen - 4; i++)
+		for (i = 4; i < state->rkeylen - 4; i++)
 		{
-			roundkeys[i] = it_0[s_box[(roundkeys[i] >> 24)]] ^
-				it_1[s_box[(uint8_t)(roundkeys[i] >> 16)]] ^
-				it_2[s_box[(uint8_t)(roundkeys[i] >> 8)]] ^
-				it_3[s_box[(uint8_t)(roundkeys[i])]];
+			state->roundkeys[i] = it_0[s_box[(state->roundkeys[i] >> 24)]] ^
+				it_1[s_box[(uint8_t)(state->roundkeys[i] >> 16)]] ^
+				it_2[s_box[(uint8_t)(state->roundkeys[i] >> 8)]] ^
+				it_3[s_box[(uint8_t)(state->roundkeys[i])]];
 		}
 	}
 
